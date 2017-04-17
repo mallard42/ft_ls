@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:43:12 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/17 17:46:32 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/17 18:29:30 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,23 @@ void	multi_option(char **tab)
 
 void	multi_str(char **tab)
 {
-	int		i;
 	t_dir	*lst;
+	int		i;
+	int		size;
 	t_opt	env;
 
+	i = 0;
 	lst = NULL;
-	i = 1;
 	tab = del_str_to_tab(tab, 1);
-	printf("a avant = %d\n", env.opt_a);
 	ini_opt(&env);
-	printf("a = %d\n", env.opt_a);	
-	//dir_default(tab, env, &lst);
-	//print_tab(lst->file);
+	dir_default(tab, env, &lst);
+	size = sizelst(&lst);
+	while (lst != NULL)
+	{
+		option_print(env, lst, size, i);
+		i++;
+		lst = lst->prev;
+	}
 }
 
 char	*tabtostr(char **tab)

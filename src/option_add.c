@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   option_add.c                                       :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 11:57:40 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/17 15:53:16 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/17 18:18:29 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,9 @@ char	**opt_a(DIR *dir, char *str, t_opt env)
 		}
 	}
 	else
-	{
-		printf("default\n");
 		while ((sd = readdir(dir)) != NULL)
 			if (ft_strncmp(sd->d_name, ".", 1))
 				tab = add_str_to_tab(tab, sd->d_name);
-	}
 	//default_sort(tab);
 	return (tab);
 }
