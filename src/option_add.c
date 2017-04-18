@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 11:57:40 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/17 18:18:29 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/18 18:19:23 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	ft_default(char *str, t_opt env)
 	tmp = NULL;
 	dir = opendir(str);
 	if (dir == NULL)
-	{
-		printf("yo\n");
-		perror(str);
-	}
+		error(str);
 	else
 	{
 		tmp = opt_a(dir, str, env);
@@ -46,7 +43,7 @@ void	recursive_file(char *str, t_opt env)
 	i = 0;
 	dir = opendir(str);
 	if (dir == NULL)
-		error_file(str);
+		error(str);
 	else
 	{
 		ft_default(str, env);

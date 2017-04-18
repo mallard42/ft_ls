@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:43:12 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/17 18:29:30 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/18 18:19:07 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	multi_option(char **tab)
 	env = rec_option(tabtostr(tab));
 	tab = del_str_to_tab(tab, 1);
 	//check_mode(tab);
-	//if (env.opt_d == 0)
-	//	if ((lst = dirnew(".", tab)))
-	//		option_sort(env, lst, 0);
+	if (env.opt_d == 0)
+		if ((lst = dirnew(".", tab)))
+			option_sort(env, lst, 0, tab);
 	lst = option_add(env, tab);
 }
 
@@ -57,10 +57,11 @@ char	*tabtostr(char **tab)
 	char	*str;
 
 	i = 1;
+	str = NULL;
 	str = ft_strdup("-");
 	while (tab[i] && tab[i][0] == '-')
 	{
-		str = ft_strjoin(str, &(tab[i][1]));
+		str = ft_strjoin_f(str, &(tab[i][1]), 0);
 		i++;
 	}
 	return (str);

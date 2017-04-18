@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:37:10 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/17 14:54:14 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/18 13:54:49 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	add_space(char **tab)
 			k = ft_strlen(tab[i]);
 			while (k != j)
 			{
-				tab[i] = ft_strjoin(" ", tab[i]);
+				tab[i] = ft_strjoin_f(" ", tab[i], 1);
 				k++;
 			}
 		}
@@ -68,12 +68,12 @@ char	**info_time(char *str, char **tab, t_opt env)
 	i = 0;
 	if (!(tmp = newtab(tablen(tab))))
 		return (0);
-	//if (env.opt_u == 1)
+	if (env.opt_u == 1)
 		while (tab[i] != NULL)
 		{
 			lstat(double_path(str, tab[i]), &buf);
 			tmp[i] = ft_strsub(ctime(&(buf.st_mtime)), 4, 12);
-			tmp[i] = ft_strjoin(tmp[i], " ");
+			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
 			i++;
 		}
 	//info_time_bonus(str, tab, env, tmp);	
@@ -91,7 +91,7 @@ void	info_time_bonus(char *str, char **tab, t_opt env, char **tmp)
 		{
 			lstat(double_path(str, tab[i]), &buf);
 			tmp[i] = ft_strsub(ctime(&(buf.st_atime)), 4, 12);
-			tmp[i] = ft_strjoin(tmp[i], " ");
+			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
 			i++;
 		}
 	i = 0;
@@ -100,7 +100,7 @@ void	info_time_bonus(char *str, char **tab, t_opt env, char **tmp)
 		{
 			lstat(double_path(str, tab[i]), &buf);
 			tmp[i] = ft_strsub(ctime(&(buf.st_ctime)), 4, 12);
-			tmp[i] = ft_strjoin(tmp[i], " ");
+			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
 			i++;
 		}
 }
@@ -117,7 +117,7 @@ void	info_link(char *str, char **tab, char ***info)
 		{
 			lstat(double_path(str, tab[i]), &buf);
 			info[0][i] = ft_itoa((int)buf.st_nlink);
-			info[0][i] = ft_strjoin(info[0][i], " ");
+			info[0][i] = ft_strjoin_f(info[0][i], " ", 0);
 		}
 		add_space(info[0]);
 	}
@@ -128,7 +128,7 @@ void	info_link(char *str, char **tab, char ***info)
 		{
 			lstat(double_path(str, tab[i]), &buf);
 			info[3][i] = ft_itoa((int)buf.st_size);
-			info[3][i] = ft_strjoin(info[3][i], " ");
+			info[3][i] = ft_strjoin_f(info[3][i], " ", 0);
 		}
 		add_space(info[3]);
 	}
@@ -149,7 +149,7 @@ void	info_user(char *str, char **tab, char ***info)
 			lstat(double_path(str, tab[i]), &buf);
 			user = getpwuid(buf.st_uid);
 			info[1][i] = ft_strdup(user->pw_name);
-			info[1][i] = ft_strjoin(info[1][i], " ");
+			info[1][i] = ft_strjoin_f(info[1][i], " ", 0);
 		}
 		add_space(info[1]);
 	}
@@ -161,7 +161,7 @@ void	info_user(char *str, char **tab, char ***info)
 			lstat(double_path(str, tab[i]), &buf);
 			group = getgrgid(buf.st_gid);
 			info[2][i] = ft_strdup(group->gr_name);
-			info[2][i] = ft_strjoin(info[2][i], " ");
+			info[2][i] = ft_strjoin_f(info[2][i], " ", 0);
 		}
 		add_space(info[2]);
 	}
