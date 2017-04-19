@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 18:21:14 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/19 18:23:30 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_dir	*option_add(t_opt env, char **tab)
 	}
 	else
 	{
-		printf("1\n");
 		if (env.opt_maj_r == 1)
 			while (tab[++i] != NULL)
 				recursive_file(tab[i], env);

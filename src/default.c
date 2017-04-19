@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:03:37 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 18:28:35 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/19 15:24:19 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ void	char_del(char **tab, int i)
 	int		size;
 
 	size = tablen(tab);
+	//ft_strdel(&tab[i]);
+	while (i < size)
+	{
+		tab[i] = tab[i + 1];
+		i++;
+	}
 }
 
 void	dir_default(char **tab, t_opt env, t_dir **lst)
@@ -51,24 +57,13 @@ void	dir_default(char **tab, t_opt env, t_dir **lst)
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		printf("1\n");
 		dir = opendir(tab[i]);
-		printf("2\n");
 		if (dir == NULL)
-		{
-			printf("a\n");
 			error(tab[i]);
-		}
 		else
-		{
-			printf("b\n");
 			tmp = opt_a(dir, tab[i], env);
-		}
-		printf("3\n");
 		//default_sort(tmp);
-		printf("4\n");
 		new = dirnew(tab[i], tmp);
-		printf("1\n");
 		if (*lst == NULL)
 			*lst = dirnew(tab[i], tmp);
 		else
