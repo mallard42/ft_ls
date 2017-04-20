@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/19 18:18:52 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/20 16:26:28 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void			info_time_bonus(char *str, char **tab, t_opt env, char **tmp);
 void			mode_file(char *str);
 void			check_mode(char **tab);
 void			error(char *str);
-void			check_file(char **tab, t_opt env);
+char			**check_file(char **tab);
 void			char_del(char **tab, int i);
 
 #endif

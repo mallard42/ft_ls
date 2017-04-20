@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 10:35:43 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/19 18:19:19 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/20 17:45:02 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,9 @@ char	**add_str_to_tab(char **tab, char *str)
 		tmp[i] = ft_strdup(tab[i]);
 		i++;
 	}
-	printf("i = %d\n", i);
-	printf("str = %s\n", str);
 	tmp[i] = ft_strdup(str);
-	printf("tab[i] = %s\n", tab[i]);
+	printf("yolo\n");
+	print_tab(tmp);
 	return (tmp);
 }
 
