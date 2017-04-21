@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 16:48:27 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/20 17:45:06 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 11:42:30 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,11 @@ char	**check_file(char **tab)
 			if (tmp[0] == NULL)
 				tmp[0] = ft_strdup(tab[i]);
 			else
-				add_str_to_tab(tmp, tab[i]);
+				tmp = add_str_to_tab(tmp, tab[i]);
 			char_del(tab, i);
 			i--;
 		}
 		i++;
 	}
-	printf("\nfichier:\n");
-	print_tab(tmp);
-	printf("\ndossier:\n");
-	print_tab(tab);
 	return (tmp);
 }

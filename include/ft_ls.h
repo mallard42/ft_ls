@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/20 16:26:28 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 20:03:25 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void			diradd(t_dir **file, t_dir *new);
 int				size_dir(char *str, int a);
 void			multi_option(char **tab);
 t_opt			rec_option(char *str);
-t_dir			*option_add(t_opt env, char **tab);
+void			option_add(t_opt env, char **tab);
 void			option_sort(t_opt env, t_dir *lst, int print, char **tab);
 void			check_option(char *str, char *option);
 void			error_file(char *str);
@@ -78,7 +78,7 @@ char			*tabtostr(char **tab);
 void			ini_opt(t_opt *env);
 void			add_space(char **tab);
 void			startdir(t_dir **file);
-void			opt_l(char *str, char **tab, t_opt env);
+void			opt_l(char *str, char **tab, t_opt env, int t);
 void			info_link(char *str, char **tab, char ***info);
 char			**info_time(char *str, char **tab, t_opt env);
 void			info_user(char *str, char **tab, char ***info);
@@ -96,5 +96,7 @@ void			check_mode(char **tab);
 void			error(char *str);
 char			**check_file(char **tab);
 void			char_del(char **tab, int i);
+void			dirfree_end(t_dir **lst);
+void			tabdel(char **tab);
 
 #endif

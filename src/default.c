@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:03:37 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/20 17:24:06 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 20:22:51 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ void	dir_default(char **tab, t_opt env, t_dir **lst)
 		if (dir == NULL)
 			error(tab[i]);
 		else
+		{
 			tmp = opt_a(dir, tab[i], env);
+		}
 		//default_sort(tmp);
 		new = dirnew(tab[i], tmp);
 		if (*lst == NULL)

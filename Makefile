@@ -6,7 +6,7 @@
 #    By: mallard <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/08 12:39:07 by mallard           #+#    #+#              #
-#    Updated: 2017/04/07 16:52:11 by mallard          ###   ########.fr        #
+#    Updated: 2017/04/21 11:34:21 by mallard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,10 @@ LIBFT = ./libft/libft.a
 
 SRC = $(P)main.c $(P)option.c $(P)dir.c $(P)error.c $(P)option_add.c $(P)tab.c \
 	  $(P)path.c $(P)default.c $(P)option_print.c $(P)option_sort.c \
-	  $(P)check.c
+	  $(P)check.c $(P)free.c
 
 OBJ = main.o option.o dir.o error.o option_add.o tab.o path.o default.o \
-	  option_print.o option_sort.o check.o
+	  option_print.o option_sort.o check.o free.o
 
 FLAGS = -Werror -Wextra -Wall -g
 
