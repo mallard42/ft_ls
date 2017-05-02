@@ -6,11 +6,19 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 11:57:40 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 18:19:23 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 20:22:53 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
+
+void	opt_d(t_opt env, char **tab)
+{
+	if (env.opt_l == 1)
+		opt_l(".", tab, env, 0);
+	else
+		print_tab(tab);
+}
 
 void	ft_default(char *str, t_opt env)
 {
@@ -85,6 +93,6 @@ char	**opt_a(DIR *dir, char *str, t_opt env)
 		while ((sd = readdir(dir)) != NULL)
 			if (ft_strncmp(sd->d_name, ".", 1))
 				tab = add_str_to_tab(tab, sd->d_name);
-	//default_sort(tab);
+	default_sort(tab);
 	return (tab);
 }

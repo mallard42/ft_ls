@@ -1,21 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 09:46:07 by mallard           #+#    #+#             */
-/*   Updated: 2016/11/14 11:03:31 by mallard          ###   ########.fr       */
+/*   Created: 2017/04/21 11:10:42 by mallard           #+#    #+#             */
+/*   Updated: 2017/04/21 13:22:54 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include "../include/ft_ls.h"
 
-int		ft_isprint(int c)
+void	dirfree_end(t_dir **lst)
 {
-	if ((c >= 33 && c <= 126) || c == ' ')
-		return (1);
-	else
-		return (0);
+	t_dir	*tmp;
+
+	tmp = *lst;
+	lst = &((*lst)->prev);
+	tabdel(tmp->file);
+	tmp->path = NULL;
+	free(tmp);
+	tmp = NULL;
+}
+
+void	tabdel(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		ft_strdel(&(tab[i]));
+		i++;
+	}
+	free(tab);
+	tab = NULL;
 }

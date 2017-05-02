@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 18:21:14 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 20:09:19 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_opt	rec_option(char *str)
 	return (env);
 }
 
-t_dir	*option_add(t_opt env, char **tab)
+void	option_add(t_opt env, char **tab)
 {
 	int		i;
 	t_dir	*lst;
@@ -39,12 +39,12 @@ t_dir	*option_add(t_opt env, char **tab)
 	if (env.opt_d == 1)
 	{
 		if (!(lst = dirnew(".", tab)))
-			return (0);
-		option_sort(env, lst, 1, tab);
+			return;
+		option_sort(env, lst, 0, tab);
+		opt_d(env, tab);
 	}
 	else
 	{
-		printf("1\n");
 		if (env.opt_maj_r == 1)
 			while (tab[++i] != NULL)
 				recursive_file(tab[i], env);
@@ -54,7 +54,6 @@ t_dir	*option_add(t_opt env, char **tab)
 			option_sort(env, lst, 1, tab);
 		}
 	}
-	return (lst);
 }
 
 void	option_print(t_opt env, t_dir *lst, int size, int i)
@@ -65,7 +64,7 @@ void	option_print(t_opt env, t_dir *lst, int size, int i)
 		ft_putendl(":");
 	}
 	if (env.opt_l == 1)
-		opt_l(lst->path, lst->file, env);
+		opt_l(lst->path, lst->file, env, 1);
 	else
 		print_tab(lst->file);
 	if (i != size - 1)

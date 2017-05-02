@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/07 16:48:27 by mallard           #+#    #+#             i*/
-/*   Updated: 2017/04/18 17:58:25 by mallard          ###   ########.fr       */
+/*   Created: 2017/04/07 16:48:27 by mallard           #+#    #+#             */
+/*   Updated: 2017/04/21 11:42:30 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	check_option(char *str, char *option)
 {
-	int		i;
-	int		j;
+	int				i;
+	int				j;
 
 	j = 0;
 	i = 1;
@@ -31,4 +31,31 @@ void	check_option(char *str, char *option)
 	}
 	if (option[j] == '\0' && str[i] != '\0')
 		error_option(str[i]);
+}
+
+char	**check_file(char **tab)
+{
+	int			i;
+	struct stat		buf;
+	char			**tmp;
+
+	i = 0;
+	if (!(tmp = newtab(1)))
+		return (0);
+	tmp[0] = NULL;
+	while (tab[i] != NULL)
+	{
+		lstat(tab[i], &buf);
+		if (S_ISDIR(buf.st_mode) == 0)
+		{
+			if (tmp[0] == NULL)
+				tmp[0] = ft_strdup(tab[i]);
+			else
+				tmp = add_str_to_tab(tmp, tab[i]);
+			char_del(tab, i);
+			i--;
+		}
+		i++;
+	}
+	return (tmp);
 }

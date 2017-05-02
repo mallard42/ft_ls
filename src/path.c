@@ -22,7 +22,7 @@ char	*double_path(char *s1, char *s2)
 		return (s2);
 	if (!s2)
 		return (s1);
-	//if (ft_strcmp(s1, "/"))
+	if (ft_strcmp(s1, "/"))
 		str = ft_strjoin(s1, "/");
 	str = ft_strjoin(str, s2);
 	return (str);

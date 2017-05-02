@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:43:12 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 18:19:07 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 20:06:17 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,29 @@
 
 void	multi_option(char **tab)
 {
-	int		i;
 	t_opt	env;
 	t_dir	*lst;
+	char	**file;
 
 	lst = NULL;
-	i = 1;
 	check_option(tabtostr(tab), "ARUacdlrtu");
 	env = rec_option(tabtostr(tab));
 	tab = del_str_to_tab(tab, 1);
-	//check_mode(tab);
-	if (env.opt_d == 0)
-		if ((lst = dirnew(".", tab)))
+	file = check_file(tab);
+	if (file != NULL)
+	{
+		if ((lst = dirnew(".", file)))
+		{
 			option_sort(env, lst, 0, tab);
-	lst = option_add(env, tab);
+			print_tab(lst->file);
+			dirfree_end(&lst);
+		}
+	}
+	if (tab)
+		if (env.opt_d == 0)
+			if ((lst = dirnew(".", tab)))
+				option_sort(env, lst, 0, tab);
+	option_add(env, tab);
 }
 
 void	multi_str(char **tab)

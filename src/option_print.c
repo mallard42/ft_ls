@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:37:10 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 13:54:49 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 20:03:34 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,7 @@ char	**info_time(char *str, char **tab, t_opt env)
 	i = 0;
 	if (!(tmp = newtab(tablen(tab))))
 		return (0);
-	if (env.opt_u == 1)
-		while (tab[i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			tmp[i] = ft_strsub(ctime(&(buf.st_mtime)), 4, 12);
-			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
-			i++;
-		}
-	//info_time_bonus(str, tab, env, tmp);	
+	info_time_bonus(str, tab, env, tmp);	
 	return (tmp);
 }
 
@@ -86,7 +78,7 @@ void	info_time_bonus(char *str, char **tab, t_opt env, char **tmp)
 	struct stat		buf;
 
 	i = 0;
-	if (env.opt_maj_u == 1)
+	if (env.opt_u == 1)
 		while (tab[i] != NULL)
 		{
 			lstat(double_path(str, tab[i]), &buf);
@@ -94,12 +86,27 @@ void	info_time_bonus(char *str, char **tab, t_opt env, char **tmp)
 			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
 			i++;
 		}
-	i = 0;
-	if (env.opt_c == 1)
+	else if (env.opt_maj_u == 1)
+		while (tab[i] != NULL)
+		{
+			lstat(double_path(str, tab[i]), &buf);
+			tmp[i] = ft_strsub(ctime(&(buf.st_birthtime)), 4, 12);
+			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
+			i++;
+		}
+	else if (env.opt_c == 1)
 		while (tab[i] != NULL)
 		{
 			lstat(double_path(str, tab[i]), &buf);
 			tmp[i] = ft_strsub(ctime(&(buf.st_ctime)), 4, 12);
+			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
+			i++;
+		}
+	else
+		while (tab[i] != NULL)
+		{
+			lstat(double_path(str, tab[i]), &buf);
+			tmp[i] = ft_strsub(ctime(&(buf.st_mtime)), 4, 12);
 			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
 			i++;
 		}
@@ -167,7 +174,7 @@ void	info_user(char *str, char **tab, char ***info)
 	}
 }
 
-void	opt_l(char *str, char **tab, t_opt env)
+void	opt_l(char *str, char **tab, t_opt env, int t)
 {
 	char			***tmp;
 	int				i;
@@ -180,7 +187,8 @@ void	opt_l(char *str, char **tab, t_opt env)
 		tmp[4] = info_time(str, tab, env);
 		tmp[5] = tab;
 		tmp[6] = NULL;
-		l_total(str, tab);
+		if (t == 1)
+			l_total(str, tab);
 		while (i < tablen(tab))
 		{
 			mode_file(double_path(str, tab[i]));

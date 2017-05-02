@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 10:35:43 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 12:01:31 by mallard          ###   ########.fr       */
+/*   Updated: 2017/04/21 19:30:43 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	**add_str_to_tab(char **tab, char *str)
 	int		i;
 
 	i = tablen(tab);
+	if (tab[0] == NULL)
+		i = 1;
 	if (!(tmp = newtab(i + 1)))
 		return (0);
 	i = 0;
@@ -62,6 +64,7 @@ char	**add_str_to_tab(char **tab, char *str)
 		i++;
 	}
 	tmp[i] = ft_strdup(str);
+	tabdel(tab);
 	return (tmp);
 }
 
