@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 10:59:47 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 13:45:48 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void			diradd(t_dir **file, t_dir *new);
 int				size_dir(char *str, int a);
 void			multi_option(char **tab);
 t_opt			rec_option(char *str);
-void			option_add(t_opt env, char **tab);
-void			option_sort(t_opt env, t_dir *lst, int print, char **tab);
+void			option_add(t_opt env, char **tab, int size);
+void			option_sort(t_opt env, t_dir *lst, int print, int f);
 void			check_option(char *str, char *option);
 void			error_file(char *str);
 void			error_mod(char *str);
@@ -83,13 +83,13 @@ void			opt_l(char *str, char **tab, t_opt env, int t);
 void			info_link(char *str, char **tab, char ***info);
 char			**info_time(char *str, char **tab, t_opt env);
 void			info_user(char *str, char **tab, char ***info);
-void			recursive_file(char *str, t_opt env);
+void			recursive_file(char *str, t_opt env, int size);
 void			creation_sort(char *path, char **tab);
 void			access_sort(char *path, char **tab);
 void			status_sort(char *path, char **tab);
 int				sizelst(t_dir **file);
 void			option_print(t_opt env, t_dir *lst, int size, int i);
-void			ft_default(char *str, t_opt env);
+void			ft_default(char *str, t_opt env, int size);
 void			l_total(char *str, char **tab);
 void			info_time_bonus(char *str, char **tab, t_opt env, char **tmp);
 void			mode_file(char *str);
@@ -99,6 +99,6 @@ char			**check_file(char **tab);
 void			char_del(char **tab, int i);
 void			dirfree_end(t_dir **lst);
 void			tabdel(char **tab);
-void			opt_d(t_opt env, char **tab, t_dir *lst);
+void			opt_d(t_opt env, char **tab, t_dir *lst, int size);
 
 #endif

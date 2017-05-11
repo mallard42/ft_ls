@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 11:59:04 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:17:18 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_opt	rec_option(char *str)
 	return (env);
 }
 
-void	option_add(t_opt env, char **tab)
+void	option_add(t_opt env, char **tab, int size)
 {
 	int		i;
 	t_dir	*lst;
@@ -39,27 +39,30 @@ void	option_add(t_opt env, char **tab)
 	if (env.opt_d == 1)
 	{
 		if ((lst = dirnew(".", tab)))
-			opt_d(env, tab, lst);
+			opt_d(env, tab, lst, size);
 	}
 	else
 	{
 		if (env.opt_maj_r == 1)
 			while (tab[++i] != NULL)
-				recursive_file(tab[i], env);
+				recursive_file(tab[i], env, size);
 		else
 		{
 			dir_default(tab, env, &lst);
-			option_sort(env, lst, 1, tab);
+			option_sort(env, lst, 1, tablen(tab) + size);
 		}
 	}
 }
 
 void	option_print(t_opt env, t_dir *lst, int size, int i)
 {
-	if (size != 1 && lst->path != NULL)
+	if (size != 1)
 	{
-		ft_putstr(lst->path);
-		ft_putendl(":");
+		if (lst->path != NULL)
+		{
+			ft_putstr(lst->path);
+			ft_putendl(":");
+		}
 	}
 	if (env.opt_l == 1)
 		opt_l(lst->path, lst->file, env, 1);
@@ -69,13 +72,13 @@ void	option_print(t_opt env, t_dir *lst, int size, int i)
 		ft_putstr("\n");
 }
 
-void	option_sort(t_opt env, t_dir *lst, int print, char **tab)
+void	option_sort(t_opt env, t_dir *lst, int print, int f)
 {
 	int		size;
 	int		i;
 
 	i = 0;
-	size = sizelst(&lst);
+	size = sizelst(&lst) + f;
 	while (lst != NULL)
 	{
 		if (env.opt_t == 1)
@@ -91,7 +94,7 @@ void	option_sort(t_opt env, t_dir *lst, int print, char **tab)
 		if (env.opt_r == 1)
 			rev_sort(lst->file);
 		if (print == 1)
-			option_print(env, lst, tablen(tab), i);
+			option_print(env, lst, size, i - f);
 		lst = lst->prev;
 		i++;
 	}

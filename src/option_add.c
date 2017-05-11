@@ -6,22 +6,22 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 10:31:59 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 11:02:31 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:03:32 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
 
-void	opt_d(t_opt env, char **tab, t_dir *lst)
+void	opt_d(t_opt env, char **tab, t_dir *lst, int size)
 {
-	option_sort(env, lst, 0, tab);
+	option_sort(env, lst, 0, size);
 	if (env.opt_l == 1)
 		opt_l(lst->path, lst->file, env, 1);
 	else
 		print_tab(lst->file);
 }
 
-void	ft_default(char *str, t_opt env)
+void	ft_default(char *str, t_opt env, int size)
 {
 	struct dirent	*sd;
 	DIR				*dir;
@@ -38,11 +38,11 @@ void	ft_default(char *str, t_opt env)
 		closedir(dir);
 		default_sort(tmp);
 		if ((new = dirnew(str, tmp)))
-			option_sort(env, new, 1, tmp);
+			option_sort(env, new, 1, tablen(tmp) + size);
 	}
 }
 
-void	recursive_file(char *str, t_opt env)
+void	recursive_file(char *str, t_opt env, int size)
 {
 	struct dirent	*sd;
 	DIR				*dir;
@@ -55,13 +55,13 @@ void	recursive_file(char *str, t_opt env)
 		error(str);
 	else
 	{
-		ft_default(str, env);
+		ft_default(str, env, size);
 		while ((sd = readdir(dir)) != NULL)
 		{
 			if (sd->d_type == 4 && i > 1 && ft_strncmp(sd->d_name, ".", 1))
 			{
 				tmp = double_path(str, sd->d_name);
-				recursive_file(tmp, env);
+				recursive_file(tmp, env, size);
 			}
 			i++;
 		}

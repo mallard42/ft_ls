@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 16:48:27 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 11:10:28 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:30:41 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	**check_file(char **tab)
 	int				i;
 	struct stat		buf;
 	char			**tmp;
+	int				j;
 
 	i = 0;
 	if (!(tmp = newtab(1)))
@@ -57,5 +58,8 @@ char	**check_file(char **tab)
 		}
 		i++;
 	}
+	j = tablen(tmp);
+	if (*tmp)
+		tmp[j - 1] = ft_strjoin(tmp[j - 1], "\n");
 	return (tmp);
 }
