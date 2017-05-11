@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:12:02 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/17 13:47:47 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/10 11:24:55 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	modification_sort(char *path, char **tab)
 	int				i;
 	char			*tmp;
 
-	i = 0;
-	while (tab[i + 1] != NULL)
+	i = -1;
+	while (tab[++i + 1] != NULL)
 	{
 		lstat(double_path(path, tab[i]), &buf1);
 		lstat(double_path(path, tab[i + 1]), &buf2);
@@ -56,7 +56,6 @@ void	modification_sort(char *path, char **tab)
 				tab[i] = tab[i + 1];
 				tab[i + 1] = tmp;
 			}
-		i++;
 	}
 }
 
@@ -67,8 +66,8 @@ void	creation_sort(char *path, char **tab)
 	int				i;
 	char			*tmp;
 
-	i = 0;
-	while (tab[i + 1] != NULL)
+	i = -1;
+	while (tab[++i + 1] != NULL)
 	{
 		lstat(double_path(path, tab[i]), &buf1);
 		lstat(double_path(path, tab[i + 1]), &buf2);
@@ -86,7 +85,6 @@ void	creation_sort(char *path, char **tab)
 				tab[i] = tab[i + 1];
 				tab[i + 1] = tmp;
 			}
-		i++;
 	}
 }
 
@@ -97,8 +95,8 @@ void	access_sort(char *path, char **tab)
 	int				i;
 	char			*tmp;
 
-	i = 0;
-	while (tab[i + 1] != NULL)
+	i = -1;
+	while (tab[++i + 1] != NULL)
 	{
 		lstat(double_path(path, tab[i]), &buf1);
 		lstat(double_path(path, tab[i + 1]), &buf2);
@@ -116,7 +114,6 @@ void	access_sort(char *path, char **tab)
 				tab[i] = tab[i + 1];
 				tab[i + 1] = tmp;
 			}
-		i++;
 	}
 }
 
@@ -127,8 +124,8 @@ void	status_sort(char *path, char **tab)
 	int				i;
 	char			*tmp;
 
-	i = 0;
-	while (tab[i + 1] != NULL)
+	i = -1;
+	while (tab[++i + 1] != NULL)
 	{
 		lstat(double_path(path, tab[i]), &buf1);
 		lstat(double_path(path, tab[i + 1]), &buf2);
@@ -146,6 +143,5 @@ void	status_sort(char *path, char **tab)
 				tab[i] = tab[i + 1];
 				tab[i + 1] = tmp;
 			}
-		i++;
 	}
 }

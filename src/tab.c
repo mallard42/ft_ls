@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 10:35:43 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 19:30:43 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/10 16:05:22 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,15 @@ void	print_tab(char **tab)
 {
 	int		i;
 
-	i = 0;
-	while (tab[i] != NULL)
+	if (tab)
 	{
-		ft_putstr(tab[i]);
-		ft_putstr("\n");
-		i++;
+		i = 0;
+		while (tab[i] != NULL)
+		{
+			ft_putstr(tab[i]);
+			ft_putstr("\n");
+			i++;
+		}
 	}
 }
 
@@ -40,7 +43,7 @@ int		tablen(char **tab)
 	int		i;
 
 	i = 0;
-	if (!tab && !*tab)
+	if (!tab)
 		return (0);
 	while (tab[i] != NULL)
 		i++;
@@ -52,12 +55,9 @@ char	**add_str_to_tab(char **tab, char *str)
 	char	**tmp;
 	int		i;
 
-	i = tablen(tab);
-	if (tab[0] == NULL)
-		i = 1;
-	if (!(tmp = newtab(i + 1)))
-		return (0);
 	i = 0;
+	if (!(tmp = newtab(tablen(tab) + 1)))
+		return (NULL);
 	while (tab[i] != NULL)
 	{
 		tmp[i] = ft_strdup(tab[i]);

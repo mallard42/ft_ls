@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:03:25 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 10:59:47 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <time.h>
 # include <pwd.h>
 # include <errno.h>
+# include <sys/xattr.h>
 
 # include <stdio.h>
 
@@ -98,5 +99,6 @@ char			**check_file(char **tab);
 void			char_del(char **tab, int i);
 void			dirfree_end(t_dir **lst);
 void			tabdel(char **tab);
+void			opt_d(t_opt env, char **tab, t_dir *lst);
 
 #endif

@@ -6,11 +6,34 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:37:10 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:03:34 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 10:33:22 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
+
+void	is_link(char *str)
+{
+	struct stat		buf;
+	int				ret;
+	char			*link;
+	char			*buff;
+
+	lstat(str, &buf);
+	if (S_ISLNK(buf.st_mode))
+	{
+		if ((buff = ft_strnew(32)))
+		{
+			//while ((ret = readlink(str, buff, 32)) != -1)
+			//{
+				ret = readlink(str, buff, 32);
+				buff[ret] = '\0';
+				link = ft_strjoin(link, buff);
+			//}
+			ft_putendl(link);
+		}
+	}
+}
 
 void	l_total(char *str, char **tab)
 {
@@ -68,7 +91,7 @@ char	**info_time(char *str, char **tab, t_opt env)
 	i = 0;
 	if (!(tmp = newtab(tablen(tab))))
 		return (0);
-	info_time_bonus(str, tab, env, tmp);	
+	info_time_bonus(str, tab, env, tmp);
 	return (tmp);
 }
 
@@ -150,7 +173,6 @@ void	info_user(char *str, char **tab, char ***info)
 
 	i = -1;
 	if ((info[1] = newtab(tablen(tab))))
-	{
 		while (tab[++i] != NULL)
 		{
 			lstat(double_path(str, tab[i]), &buf);
@@ -158,11 +180,8 @@ void	info_user(char *str, char **tab, char ***info)
 			info[1][i] = ft_strdup(user->pw_name);
 			info[1][i] = ft_strjoin_f(info[1][i], " ", 0);
 		}
-		add_space(info[1]);
-	}
 	i = -1;
 	if ((info[2] = newtab(tablen(tab))))
-	{
 		while (tab[++i] != NULL)
 		{
 			lstat(double_path(str, tab[i]), &buf);
@@ -170,8 +189,6 @@ void	info_user(char *str, char **tab, char ***info)
 			info[2][i] = ft_strdup(group->gr_name);
 			info[2][i] = ft_strjoin_f(info[2][i], " ", 0);
 		}
-		add_space(info[2]);
-	}
 }
 
 void	opt_l(char *str, char **tab, t_opt env, int t)
@@ -194,14 +211,18 @@ void	opt_l(char *str, char **tab, t_opt env, int t)
 			mode_file(double_path(str, tab[i]));
 			ft_putstr(tmp[0][i]);
 			ft_putstr(tmp[1][i]);
+			ft_putstr(" ");
 			ft_putstr(tmp[2][i]);
+			ft_putstr(" ");
 			ft_putstr(tmp[3][i]);
 			ft_putstr(tmp[4][i]);
 			ft_putendl(tmp[5][i]);
+			//is_link(tab[i]);
 			i++;
 		}
 	}
 }
+
 void	mode_file(char *str)
 {
 	struct stat		buf;
@@ -222,5 +243,5 @@ void	mode_file(char *str)
 	ft_putstr((buf.st_mode & S_IROTH) ? "r" : "-");
 	ft_putstr((buf.st_mode & S_IWOTH) ? "w" : "-");
 	ft_putstr((buf.st_mode & S_IXOTH) ? "x" : "-");
-
+	ft_putstr("  ");
 }

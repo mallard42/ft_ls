@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:43:12 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:06:17 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 11:59:06 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ void	multi_option(char **tab)
 	file = check_file(tab);
 	if (file != NULL)
 	{
-		if ((lst = dirnew(".", file)))
+		if ((lst = dirnew(NULL, file)))
 		{
 			option_sort(env, lst, 0, tab);
-			print_tab(lst->file);
 			dirfree_end(&lst);
 		}
 	}
@@ -45,18 +44,25 @@ void	multi_str(char **tab)
 	int		i;
 	int		size;
 	t_opt	env;
+	char	**file;
 
 	i = 0;
 	lst = NULL;
 	tab = del_str_to_tab(tab, 1);
 	ini_opt(&env);
-	dir_default(tab, env, &lst);
-	size = sizelst(&lst);
-	while (lst != NULL)
+	file = check_file(tab);
+	if (file != NULL)
+		print_tab(file);
+	if (tab)
 	{
-		option_print(env, lst, size, i);
-		i++;
-		lst = lst->prev;
+		dir_default(tab, env, &lst);
+		size = sizelst(&lst);
+		while (lst != NULL)
+		{
+			option_print(env, lst, size, i);
+			i++;
+			lst = lst->prev;
+		}
 	}
 }
 

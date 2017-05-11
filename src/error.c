@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:47:21 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 15:46:44 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/10 10:28:34 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	error_file(char *str)
 
 void	error(char *str)
 {
-	printf("je passe ici\n");
-	//ft_putstr("ft_ls: ");
-	//ft_putendl(strerror(errno));
+	ft_putstr("ft_ls: ");
+	ft_putendl(strerror(errno));
 }

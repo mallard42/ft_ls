@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 12:07:47 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 17:52:12 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/10 10:28:51 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		diradd(t_dir **file, t_dir *new)
 	}
 }
 
-int		sizelst(t_dir **file)
+int			sizelst(t_dir **file)
 {
 	int		i;
 

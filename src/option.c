@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:09:19 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/11 11:59:04 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,25 @@ void	option_add(t_opt env, char **tab)
 	lst = NULL;
 	if (env.opt_d == 1)
 	{
-		if (!(lst = dirnew(".", tab)))
-			return;
-		option_sort(env, lst, 1, tab);
+		if ((lst = dirnew(".", tab)))
+			opt_d(env, tab, lst);
 	}
 	else
 	{
-		printf("1\n");
 		if (env.opt_maj_r == 1)
 			while (tab[++i] != NULL)
 				recursive_file(tab[i], env);
 		else
 		{
-			printf("2\n");
 			dir_default(tab, env, &lst);
-			printf("3\n");
 			option_sort(env, lst, 1, tab);
-			printf("4\n");
 		}
 	}
 }
 
 void	option_print(t_opt env, t_dir *lst, int size, int i)
 {
-	if (size != 1)
+	if (size != 1 && lst->path != NULL)
 	{
 		ft_putstr(lst->path);
 		ft_putendl(":");
