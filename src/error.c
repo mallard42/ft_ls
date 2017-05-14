@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:47:21 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/10 10:28:34 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/14 14:37:39 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,7 @@ void	error_file(char *str)
 void	error(char *str)
 {
 	ft_putstr("ft_ls: ");
+	ft_putstr(str);
+	ft_putstr(": ");
 	ft_putendl(strerror(errno));
 }

@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 13:45:48 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/14 17:51:15 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ typedef struct	s_opt
 	int				opt_u;
 	int				opt_c;
 }				t_opt;
+
+typedef struct	s_size
+{
+	int				user;
+	int				group;
+	int				size_file;
+	int				link;
+}				t_size;
 
 typedef struct	s_dir
 {
@@ -80,9 +88,6 @@ void			ini_opt(t_opt *env);
 void			add_space(char **tab);
 void			startdir(t_dir **file);
 void			opt_l(char *str, char **tab, t_opt env, int t);
-void			info_link(char *str, char **tab, char ***info);
-char			**info_time(char *str, char **tab, t_opt env);
-void			info_user(char *str, char **tab, char ***info);
 void			recursive_file(char *str, t_opt env, int size);
 void			creation_sort(char *path, char **tab);
 void			access_sort(char *path, char **tab);
@@ -91,8 +96,7 @@ int				sizelst(t_dir **file);
 void			option_print(t_opt env, t_dir *lst, int size, int i);
 void			ft_default(char *str, t_opt env, int size);
 void			l_total(char *str, char **tab);
-void			info_time_bonus(char *str, char **tab, t_opt env, char **tmp);
-void			mode_file(char *str);
+void			mode_file(char *str, struct stat buf);
 void			check_mode(char **tab);
 void			error(char *str);
 char			**check_file(char **tab);
@@ -100,5 +104,13 @@ void			char_del(char **tab, int i);
 void			dirfree_end(t_dir **lst);
 void			tabdel(char **tab);
 void			opt_d(t_opt env, char **tab, t_dir *lst, int size);
+void			type_file(char *str, struct stat buf);
+char			*info_time(t_opt env, struct stat buf);
+void			print_space(char *str, int size, int free);
+t_size			t_size_null(void);
+t_size			ini_size(char **tab, char *str);
+void			ini_user(struct stat buf, t_size *size);
+void			print_l(char *str, t_opt env, t_size size, struct stat buf);
+void			maj_min(dev_t dev);
 
 #endif

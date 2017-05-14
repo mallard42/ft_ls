@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 10:31:59 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 14:03:32 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/14 18:20:10 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_default(char *str, t_opt env, int size)
 void	recursive_file(char *str, t_opt env, int size)
 {
 	struct dirent	*sd;
+	struct stat		buf;
 	DIR				*dir;
 	int				i;
 	char			*tmp;
@@ -58,7 +59,9 @@ void	recursive_file(char *str, t_opt env, int size)
 		ft_default(str, env, size);
 		while ((sd = readdir(dir)) != NULL)
 		{
-			if (sd->d_type == 4 && i > 1 && ft_strncmp(sd->d_name, ".", 1))
+			lstat(str, &buf);
+			printf("taille = %d\n", S_ISDIR(buf.st_size));
+			if (S_ISDIR(buf.st_mode) && i > 1 && ft_strncmp(sd->d_name, ".", 1))
 			{
 				tmp = double_path(str, sd->d_name);
 				recursive_file(tmp, env, size);

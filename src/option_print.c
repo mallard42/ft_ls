@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:37:10 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 10:33:22 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/14 18:20:12 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,222 +26,82 @@ void	is_link(char *str)
 		{
 			//while ((ret = readlink(str, buff, 32)) != -1)
 			//{
-				ret = readlink(str, buff, 32);
-				buff[ret] = '\0';
-				link = ft_strjoin(link, buff);
+			ret = readlink(str, buff, 32);
+			buff[ret] = '\0';
+			link = ft_strjoin(link, buff);
 			//}
 			ft_putendl(link);
 		}
 	}
 }
 
-void	l_total(char *str, char **tab)
+char	*info_time(t_opt env, struct stat buf)
 {
-	int				i;
-	int				total;
-	struct stat		buf;
+	char	*tmp;
 
-	i = 0;
-	total = 0;
-	while (tab[i] != NULL)
-	{
-		lstat(double_path(str, tab[i]), &buf);
-		total = total + buf.st_blocks;
-		i++;
-	}
-	ft_putstr("total ");
-	ft_putnbr(total);
-	ft_putstr("\n");
-}
-
-void	add_space(char **tab)
-{
-	int				i;
-	int				j;
-	int				k;
-
-	j = 0;
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		if (ft_strlen(tab[i]) > j)
-		{
-			j = ft_strlen(tab[i]) + 1;
-			i = -1;
-		}
-		else
-		{
-			k = ft_strlen(tab[i]);
-			while (k != j)
-			{
-				tab[i] = ft_strjoin_f(" ", tab[i], 1);
-				k++;
-			}
-		}
-		i++;
-	}
-}
-
-char	**info_time(char *str, char **tab, t_opt env)
-{
-	char			**tmp;
-	int				i;
-	struct stat		buf;
-
-	i = 0;
-	if (!(tmp = newtab(tablen(tab))))
-		return (0);
-	info_time_bonus(str, tab, env, tmp);
-	return (tmp);
-}
-
-void	info_time_bonus(char *str, char **tab, t_opt env, char **tmp)
-{
-	int				i;
-	struct stat		buf;
-
-	i = 0;
+	tmp = NULL;
 	if (env.opt_u == 1)
-		while (tab[i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			tmp[i] = ft_strsub(ctime(&(buf.st_atime)), 4, 12);
-			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
-			i++;
-		}
+		tmp = ft_strsub(ctime(&(buf.st_atime)), 3, 13);
 	else if (env.opt_maj_u == 1)
-		while (tab[i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			tmp[i] = ft_strsub(ctime(&(buf.st_birthtime)), 4, 12);
-			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
-			i++;
-		}
+		tmp = ft_strsub(ctime(&(buf.st_birthtime)), 3, 13);
 	else if (env.opt_c == 1)
-		while (tab[i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			tmp[i] = ft_strsub(ctime(&(buf.st_ctime)), 4, 12);
-			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
-			i++;
-		}
+		tmp = ft_strsub(ctime(&(buf.st_ctime)), 3, 13);
 	else
-		while (tab[i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			tmp[i] = ft_strsub(ctime(&(buf.st_mtime)), 4, 12);
-			tmp[i] = ft_strjoin_f(tmp[i], " ", 0);
-			i++;
-		}
-}
-
-void	info_link(char *str, char **tab, char ***info)
-{
-	int				i;
-	struct stat		buf;
-
-	i = -1;
-	if ((info[0] = newtab(tablen(tab))))
-	{
-		while (tab[++i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			info[0][i] = ft_itoa((int)buf.st_nlink);
-			info[0][i] = ft_strjoin_f(info[0][i], " ", 0);
-		}
-		add_space(info[0]);
-	}
-	i = -1;
-	if ((info[3] = newtab(tablen(tab))))
-	{
-		while (tab[++i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			info[3][i] = ft_itoa((int)buf.st_size);
-			info[3][i] = ft_strjoin_f(info[3][i], " ", 0);
-		}
-		add_space(info[3]);
-	}
-}
-
-void	info_user(char *str, char **tab, char ***info)
-{
-	int				i;
-	struct stat		buf;
-	struct passwd	*user;
-	struct group	*group;
-
-	i = -1;
-	if ((info[1] = newtab(tablen(tab))))
-		while (tab[++i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			user = getpwuid(buf.st_uid);
-			info[1][i] = ft_strdup(user->pw_name);
-			info[1][i] = ft_strjoin_f(info[1][i], " ", 0);
-		}
-	i = -1;
-	if ((info[2] = newtab(tablen(tab))))
-		while (tab[++i] != NULL)
-		{
-			lstat(double_path(str, tab[i]), &buf);
-			group = getgrgid(buf.st_gid);
-			info[2][i] = ft_strdup(group->gr_name);
-			info[2][i] = ft_strjoin_f(info[2][i], " ", 0);
-		}
+		tmp = ft_strsub(ctime(&(buf.st_mtime)), 3, 13);
+	tmp = ft_strjoin(tmp, " ");
+	return (tmp);
 }
 
 void	opt_l(char *str, char **tab, t_opt env, int t)
 {
-	char			***tmp;
-	int				i;
+	t_size		size;
+	int			i;
+	struct stat	buf;
 
 	i = 0;
-	if ((tmp = (char ***)malloc(sizeof(char **) * 7)))
+	size = ini_size(tab,str);
+	if (t == 1)
+		l_total(str,tab);
+	while (tab[i])
 	{
-		info_link(str, tab, tmp);
-		info_user(str, tab, tmp);
-		tmp[4] = info_time(str, tab, env);
-		tmp[5] = tab;
-		tmp[6] = NULL;
-		if (t == 1)
-			l_total(str, tab);
-		while (i < tablen(tab))
-		{
-			mode_file(double_path(str, tab[i]));
-			ft_putstr(tmp[0][i]);
-			ft_putstr(tmp[1][i]);
-			ft_putstr(" ");
-			ft_putstr(tmp[2][i]);
-			ft_putstr(" ");
-			ft_putstr(tmp[3][i]);
-			ft_putstr(tmp[4][i]);
-			ft_putendl(tmp[5][i]);
-			//is_link(tab[i]);
-			i++;
-		}
+		lstat(double_path(str, tab[i]), &buf);
+		print_l(tab[i], env, size, buf);
+		i++;
 	}
 }
 
-void	mode_file(char *str)
+void		print_l(char *str, t_opt env, t_size size, struct stat buf)
 {
-	struct stat		buf;
+	struct passwd	*user;
+	struct group	*group;
+	char			*tmp;
 
-	lstat(str, &buf);
-	if (S_ISREG(buf.st_mode))
-		ft_putstr("-");
-	else if (S_ISLNK(buf.st_mode))
-		ft_putstr("l");
-	if (S_ISDIR(buf.st_mode))
-		ft_putstr("d");
-	ft_putstr((buf.st_mode & S_IRUSR) ? "r" : "-");
-	ft_putstr((buf.st_mode & S_IWUSR) ? "w" : "-");
-	ft_putstr((buf.st_mode & S_IXUSR) ? "x" : "-");
-	ft_putstr((buf.st_mode & S_IRGRP) ? "r" : "-");
-	ft_putstr((buf.st_mode & S_IWGRP) ? "w" : "-");
-	ft_putstr((buf.st_mode & S_IXGRP) ? "x" : "-");
-	ft_putstr((buf.st_mode & S_IROTH) ? "r" : "-");
-	ft_putstr((buf.st_mode & S_IWOTH) ? "w" : "-");
-	ft_putstr((buf.st_mode & S_IXOTH) ? "x" : "-");
-	ft_putstr("  ");
+	user = getpwuid(buf.st_uid);
+	group = getgrgid(buf.st_gid);
+	mode_file(str, buf);
+	print_space(ft_itoa((int)buf.st_nlink), size.link, 1);
+	print_space(user->pw_name, size.user + 1, 0);
+	print_space(group->gr_name, size.group + 2, 0);
+	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
+		maj_min(buf.st_dev);
+	else
+		print_space(ft_itoa((int)buf.st_size), size.size_file + 2, 1);
+	tmp = info_time(env, buf);
+	print_space(tmp, 11, 1);
+	ft_putendl(str);
+}
+
+void		print_space(char *str, int size, int free)
+{
+	int		i;
+
+	i = ft_strlen(str);
+	while (i < size)
+	{
+		ft_putchar(' ');
+		i++;
+	}
+	ft_putstr(str);
+	if (free == 1)
+		ft_strdel(&str);
 }

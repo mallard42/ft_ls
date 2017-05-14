@@ -6,11 +6,21 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:43:12 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/11 14:30:39 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/12 14:24:21 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
+
+void	print_file(t_opt env, t_dir **lst)
+{
+	option_sort(env, *lst, 0, 1);
+	if (env.opt_l == 1)
+		opt_l((*lst)->path, (*lst)->file, env, 0);
+	else
+		print_tab((*lst)->file);
+	dirfree_end(lst);
+}
 
 void	multi_option(char **tab)
 {
@@ -20,21 +30,14 @@ void	multi_option(char **tab)
 	int		f;
 
 	lst = NULL;
-	f = 0;
 	check_option(tabtostr(tab), "ARUacdlrtu");
 	env = rec_option(tabtostr(tab));
 	tab = del_str_to_tab(tab, 1);
 	file = check_file(tab);
+	f = ((file != NULL) ? 1 : 0);
 	if (file != NULL)
-	{
-		f = 1;
 		if ((lst = dirnew(NULL, file)))
-		{
-			option_sort(env, lst, 0, 1);
-			print_tab(lst->file);
-			dirfree_end(&lst);
-		}
-	}
+			print_file(env, &lst);
 	if (*tab != NULL)
 	{
 		if (env.opt_d == 0)
