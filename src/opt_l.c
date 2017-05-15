@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 12:00:46 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/14 17:56:42 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 17:54:00 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,6 @@ void	type_file(char *str, struct stat buf)
 		ft_putstr((buf.st_mode & S_IWUSR) ? "w" : "-");
 		ft_putstr((buf.st_mode & S_IXUSR) ? "x" : "-");
 	}
-}
-
-void	maj_min(dev_t dev)
-{
-	int		i;
-	int		maj;
-	int		min;
-
-	maj = major(dev);
-	min = minor(dev);
-	i = ft_intlen(min) - 1;
-	ft_putstr("    ");
-	ft_putnbr(maj);
-	while (++i <= 4)
-		ft_putchar(' ');
-	ft_putnbr(min);
 }
 
 void	mode_file(char *str, struct stat buf)

@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 14:27:59 by mallard           #+#    #+#             */
-/*   Updated: 2016/12/03 18:09:42 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 12:31:26 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static char			*alloc(long n)
 		nb++;
 	if (!(str = ft_strnew(ft_intlen(nb))))
 		return (0);
+	str = ft_memset(str, '\0', nb);
 	return (str);
 }
 
@@ -33,6 +34,8 @@ static char			*instr(int div, long nbr, char *str)
 	long			i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	if (str[i] == '-')
 		i = 1;
 	while (nbr / div >= 10)

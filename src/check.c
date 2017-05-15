@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 16:48:27 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/14 17:55:32 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 10:44:00 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ char	**check_file(char **tab)
 	char			**tmp;
 	int				j;
 
-	i = 0;
+	i = -1;
 	if (!(tmp = newtab(1)))
 		return (0);
 	tmp[0] = NULL;
-	while (tab[i] != NULL)
+	while (tab[++i] != NULL)
 	{
 		lstat(tab[i], &buf);
 		if (S_ISDIR(buf.st_mode) == 0)
@@ -56,10 +56,7 @@ char	**check_file(char **tab)
 			char_del(tab, i);
 			i--;
 		}
-		i++;
 	}
 	j = tablen(tmp);
-	if (*tmp)
-		tmp[j - 1] = ft_strjoin(tmp[j - 1], "\n");
 	return (tmp);
 }

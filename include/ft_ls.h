@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/14 17:51:15 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 17:52:44 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct	s_opt
 
 typedef struct	s_size
 {
+	int				maj_min;
 	int				user;
 	int				group;
 	int				size_file;
@@ -64,10 +65,8 @@ int				size_dir(char *str, int a);
 void			multi_option(char **tab);
 t_opt			rec_option(char *str);
 void			option_add(t_opt env, char **tab, int size);
-void			option_sort(t_opt env, t_dir *lst, int print, int f);
+void			option_sort(t_opt env, t_dir *lst, int print);
 void			check_option(char *str, char *option);
-void			error_file(char *str);
-void			error_mod(char *str);
 void			error_option(char option);
 char			**newtab(int size);
 void			print_tab(char **tab);
@@ -98,7 +97,7 @@ void			ft_default(char *str, t_opt env, int size);
 void			l_total(char *str, char **tab);
 void			mode_file(char *str, struct stat buf);
 void			check_mode(char **tab);
-void			error(char *str);
+void			error(char *str, t_opt env);
 char			**check_file(char **tab);
 void			char_del(char **tab, int i);
 void			dirfree_end(t_dir **lst);
@@ -112,5 +111,6 @@ t_size			ini_size(char **tab, char *str);
 void			ini_user(struct stat buf, t_size *size);
 void			print_l(char *str, t_opt env, t_size size, struct stat buf);
 void			maj_min(dev_t dev);
+void			print_multi_str(int i, int size, t_dir **lst, int file);
 
 #endif

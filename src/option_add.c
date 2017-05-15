@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 10:31:59 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/14 18:20:10 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 17:51:09 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	opt_d(t_opt env, char **tab, t_dir *lst, int size)
 {
-	option_sort(env, lst, 0, size);
+	option_sort(env, lst, 0);
 	if (env.opt_l == 1)
 		opt_l(lst->path, lst->file, env, 1);
 	else
@@ -31,14 +31,14 @@ void	ft_default(char *str, t_opt env, int size)
 	tmp = NULL;
 	dir = opendir(str);
 	if (dir == NULL)
-		error(str);
+		error(str, env);
 	else
 	{
 		tmp = opt_a(dir, str, env);
 		closedir(dir);
 		default_sort(tmp);
 		if ((new = dirnew(str, tmp)))
-			option_sort(env, new, 1, tablen(tmp) + size);
+			option_sort(env, new, 0);
 	}
 }
 
@@ -53,14 +53,13 @@ void	recursive_file(char *str, t_opt env, int size)
 	i = 0;
 	dir = opendir(str);
 	if (dir == NULL)
-		error(str);
+		error(str, env);
 	else
 	{
 		ft_default(str, env, size);
 		while ((sd = readdir(dir)) != NULL)
 		{
-			lstat(str, &buf);
-			printf("taille = %d\n", S_ISDIR(buf.st_size));
+			lstat(double_path(str, sd->d_name), &buf);
 			if (S_ISDIR(buf.st_mode) && i > 1 && ft_strncmp(sd->d_name, ".", 1))
 			{
 				tmp = double_path(str, sd->d_name);

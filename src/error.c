@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:47:21 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/14 14:37:39 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 10:23:51 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,13 @@ void	error_option(char option)
 	exit(EXIT_FAILURE);
 }
 
-void	error_mod(char *str)
+void	error(char *str, t_opt env)
 {
-	ft_putstr("ft_ls: ");
-	ft_putstr(str);
-	ft_putendl(": Permission denied");
-	exit(EXIT_FAILURE);
-}
-
-void	error_file(char *str)
-{
-	ft_putstr("ft_ls: ");
-	ft_putstr(str);
-	ft_putendl(": No such file or directory");
-}
-
-void	error(char *str)
-{
+	if (errno == EACCES && env.opt_maj_r == 1)
+	{
+		ft_putstr(str);
+		ft_putendl(":");
+	}
 	ft_putstr("ft_ls: ");
 	ft_putstr(str);
 	ft_putstr(": ");

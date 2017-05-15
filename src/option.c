@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/12 14:21:17 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 17:50:11 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	option_add(t_opt env, char **tab, int size)
 		else
 		{
 			dir_default(tab, env, &lst);
-			option_sort(env, lst, 1, tablen(tab) + size);
+			option_sort(env, lst, 1);
 		}
 	}
 }
@@ -72,29 +72,32 @@ void	option_print(t_opt env, t_dir *lst, int size, int i)
 		ft_putstr("\n");
 }
 
-void	option_sort(t_opt env, t_dir *lst, int print, int f)
+void	option_sort(t_opt env, t_dir *lst, int print)
 {
 	int		size;
 	int		i;
 
 	i = 0;
-	size = sizelst(&lst) + f;
+	size = sizelst(&lst);
 	while (lst != NULL)
 	{
-		if (env.opt_t == 1)
+		if (lst->path != NULL)
 		{
-			modification_sort(lst->path, lst->file);
-			if (env.opt_u == 1)
-				access_sort(lst->path, lst->file);
-			if (env.opt_maj_u == 1)
-				creation_sort(lst->path, lst->file);
-			if (env.opt_c == 1)
-				status_sort(lst->path, lst->file);
+			if (env.opt_t == 1)
+			{
+				modification_sort(lst->path, lst->file);
+				if (env.opt_u == 1)
+					access_sort(lst->path, lst->file);
+				if (env.opt_maj_u == 1)
+					creation_sort(lst->path, lst->file);
+				if (env.opt_c == 1)
+					status_sort(lst->path, lst->file);
+			}
+			if (env.opt_r == 1)
+				rev_sort(lst->file);
+			if (print == 1)
+				option_print(env, lst, size, i);
 		}
-		if (env.opt_r == 1)
-			rev_sort(lst->file);
-		if (print == 1)
-			option_print(env, lst, size, i - f);
 		lst = lst->prev;
 		i++;
 	}
