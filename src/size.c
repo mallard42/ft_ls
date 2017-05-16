@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 15:54:23 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/15 18:24:46 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/16 15:22:44 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,10 @@ void		ini_user(struct stat buf, t_size *size)
 		size->user = ft_strlen(user->pw_name);
 	if (size->group < ft_strlen(group->gr_name))
 		size->group = ft_strlen(group->gr_name);
-	if (S_ISLNK(buf.st_mode))
+	if (S_ISCHR(buf.st_mode) || S_ISBLK(buf.st_mode))
 	{
-		if (size->size_file < ft_intlen(major(buf.st_rdev) + 4))
-			size->size_file = ft_intlen(major(buf.st_rdev) + 4);
-		size->maj_min = ft_intlen(major(buf.st_rdev) + 4);
-		printf("size->maj_min = %d\n", size->maj_min);
+		if (size->size_file < 10)
+			size->size_file = 10;
 	}
 	else if (size->size_file < ft_intlen(buf.st_size))
 		size->size_file = ft_intlen(buf.st_size);

@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 12:07:47 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/10 10:28:51 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/16 17:18:00 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_dir		*dirnew(char *path, char **file)
 		return (0);
 	new->file = file;
 	new->path = path;
+	new->rank = 0;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);

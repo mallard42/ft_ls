@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/15 17:52:44 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/16 17:52:59 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct	s_opt
 
 typedef struct	s_size
 {
-	int				maj_min;
 	int				user;
 	int				group;
 	int				size_file;
@@ -55,6 +54,7 @@ typedef struct	s_dir
 {
 	char			*path;
 	char			**file;
+	int				rank;
 	struct s_dir	*next;
 	struct s_dir	*prev;
 }				t_dir;
@@ -87,13 +87,13 @@ void			ini_opt(t_opt *env);
 void			add_space(char **tab);
 void			startdir(t_dir **file);
 void			opt_l(char *str, char **tab, t_opt env, int t);
-void			recursive_file(char *str, t_opt env, int size);
+void			recursive_file(char *str, t_opt env, int size, int rank);
 void			creation_sort(char *path, char **tab);
 void			access_sort(char *path, char **tab);
 void			status_sort(char *path, char **tab);
 int				sizelst(t_dir **file);
 void			option_print(t_opt env, t_dir *lst, int size, int i);
-void			ft_default(char *str, t_opt env, int size);
+void			ft_default(char *str, t_opt env, int size, int rank);
 void			l_total(char *str, char **tab);
 void			mode_file(char *str, struct stat buf);
 void			check_mode(char **tab);
@@ -112,5 +112,7 @@ void			ini_user(struct stat buf, t_size *size);
 void			print_l(char *str, t_opt env, t_size size, struct stat buf);
 void			maj_min(dev_t dev);
 void			print_multi_str(int i, int size, t_dir **lst, int file);
+void			error_comp(char *str, char **tab, int *i);
+void			print_rank(t_opt env, t_dir *lst, int size);
 
 #endif

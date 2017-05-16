@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:47:21 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/15 10:23:51 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/16 16:36:37 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,14 @@ void	error(char *str, t_opt env)
 	ft_putstr(str);
 	ft_putstr(": ");
 	ft_putendl(strerror(errno));
+}
+
+void	error_comp(char *str, char **tab, int *i)
+{
+	ft_putstr("ft_ls: ");
+	ft_putstr(str);
+	ft_putstr(": ");
+	ft_putendl(strerror(errno));
+	char_del(tab, *i);
+	*i = *i - 1;
 }

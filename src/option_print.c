@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:37:10 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/15 18:24:48 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/16 17:23:51 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,17 @@ void		is_link(char *str)
 	struct stat		buf;
 	int				ret;
 	char			*link;
-	char			*buff;
+	char			buff[1096];
 
 	lstat(str, &buf);
 	if (S_ISLNK(buf.st_mode))
 	{
-		if ((buff = ft_strnew(32)))
+		if ((ret = readlink(str, buff, 1096)) != -1)
 		{
-			while ((ret = readlink(str, buff, 32)) != -1)
-			{
-				ret = readlink(str, buff, 32);
-				buff[ret] = '\0';
-				link = ft_strjoin(link, buff);
-			}
+			ret = readlink(str, buff, 32);
+			buff[ret] = '\0';
+			link = ft_strjoin(str, " -> ");
+			link = ft_strjoin(link, buff);
 			ft_putendl(link);
 		}
 	}
@@ -88,7 +86,10 @@ void		print_l(char *str, t_opt env, t_size size, struct stat buf)
 		print_space(ft_itoa((int)buf.st_size), size.size_file + 2, 1);
 	tmp = info_time(env, buf);
 	print_space(tmp, 11, 1);
-	ft_putendl(str);
+	if (S_ISLNK(buf.st_mode))
+		is_link(str);
+	else
+		ft_putendl(str);
 }
 
 void		print_space(char *str, int size, int free)
