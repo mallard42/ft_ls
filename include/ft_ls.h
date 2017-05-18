@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/18 13:47:03 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/18 17:46:28 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ void			print_multi_str(int i, int size, t_dir **lst, int file);
 void			error_comp(char *str, char **tab, int *i);
 void			print_rank(t_opt env, t_dir *lst, int size);
 int				is_end(char *path, char *str);
+char			*path_sup(char *str);
 
 #endif

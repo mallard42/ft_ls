@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 12:07:47 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/18 13:51:30 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/18 18:20:09 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,23 @@ int			is_end(char *path, char *str)
 	char			**tmp;
 	struct stat		buf;
 
-	dir = opendir(str);
-	if (dir == NULL)
-		return (0);
+	dir = opendir(path);
+	if (!(tmp = newtab(1)) || dir == NULL)
+		return (-1);
+	tmp[0] = NULL;
 	while ((sd = readdir(dir)) != NULL)
 	{
 		lstat(double_path(str, sd->d_name), &buf);
 		if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
-			tmp = add_str_to_tab(tmp, double_path(path, sd->d_name));
+		{
+			if (tmp[0] == NULL)
+				tmp[0] = double_path(path, sd->d_name);
+			else
+				tmp = add_str_to_tab(tmp, double_path(path, sd->d_name));
+		}
 	}
 	closedir(dir);
-	i = tablen(tmp);
+	i = tablen(tmp) - 1;
+	printf("tmp = %s\n", tmp[i]);
 	return (ft_strcmp(tmp[i] , str)) ? 0 : 1;
 }
