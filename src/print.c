@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/15 15:47:08 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/18 12:43:49 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/18 13:51:28 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void		maj_min(dev_t dev)
 	print_space(ft_itoa(min), 4, 1);
 }
 
+char		*path_sup(char *str)
+{
+	char	*tmp;
+}
+
 void		print_rank(t_opt env, t_dir *lst, int size)
 {
 	int		i;
@@ -60,7 +65,7 @@ void		print_rank(t_opt env, t_dir *lst, int size)
 			opt_l(lst->path, lst->file, env, 1);
 		else
 			print_tab(lst->file);
-		if (i < size + 1)
+		//if (is_end())
 			ft_putstr("\n");
 		lst = lst->prev;
 	}

@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/16 17:52:59 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/18 13:47:03 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct	s_dir
 
 t_dir			*dirnew(char *path, char **file);
 void			diradd(t_dir **file, t_dir *new);
-int				size_dir(char *str, int a);
 void			multi_option(char **tab);
 t_opt			rec_option(char *str);
 void			option_add(t_opt env, char **tab, int size);
@@ -114,5 +113,6 @@ void			maj_min(dev_t dev);
 void			print_multi_str(int i, int size, t_dir **lst, int file);
 void			error_comp(char *str, char **tab, int *i);
 void			print_rank(t_opt env, t_dir *lst, int size);
+int				is_end(char *path, char *str);
 
 #endif

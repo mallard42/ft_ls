@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 12:07:47 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/16 17:18:00 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/18 13:51:30 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,24 @@ void		startdir(t_dir **file)
 		*file = (*file)->prev;
 }
 
-int			size_dir(char *str, int a)
+int			is_end(char *path, char *str)
 {
 	DIR				*dir;
 	int				i;
 	struct dirent	*sd;
+	char			**tmp;
+	struct stat		buf;
 
-	i = 0;
 	dir = opendir(str);
 	if (dir == NULL)
 		return (0);
 	while ((sd = readdir(dir)) != NULL)
 	{
-		if (a == 1)
-			i++;
-		else
-		{
-			if (sd->d_name[0] != '.')
-				i++;
-		}
+		lstat(double_path(str, sd->d_name), &buf);
+		if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+			tmp = add_str_to_tab(tmp, double_path(path, sd->d_name));
 	}
 	closedir(dir);
-	return (i);
+	i = tablen(tmp);
+	return (ft_strcmp(tmp[i] , str)) ? 0 : 1;
 }
