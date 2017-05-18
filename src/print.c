@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/15 15:47:08 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/16 18:43:47 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/18 12:43:49 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void		maj_min(dev_t dev)
 	print_space(ft_itoa(min), 4, 1);
 }
 
-void		print_rank(t_opt env, t_dir *lst)
+void		print_rank(t_opt env, t_dir *lst, int size)
 {
 	int		i;
 

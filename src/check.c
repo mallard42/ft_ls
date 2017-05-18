@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 16:48:27 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/16 16:37:01 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/18 13:19:44 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**check_file(char **tab)
 		lstat(tab[i], &buf);
 		if (errno == ENOENT)
 			error_comp(tab[i], tab, &i);
-		if (S_ISDIR(buf.st_mode) == 0)
+		else if (S_ISDIR(buf.st_mode) == 0)
 		{
 			if (tmp[0] == NULL)
 				tmp[0] = ft_strdup(tab[i]);
