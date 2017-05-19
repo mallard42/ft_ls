@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/16 17:36:59 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/19 14:26:00 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	option_add(t_opt env, char **tab, int size)
 	{
 		if (env.opt_maj_r == 1)
 			while (tab[++i] != NULL)
-				recursive_file(tab[i], env, size, tablen(tab) - 1);
+				recursive_file(tab[i], env, size, tablen(tab) - 1 + i);
 		else
 		{
 			dir_default(tab, env, &lst);

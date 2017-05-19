@@ -34,6 +34,14 @@ void	error(char *str, t_opt env)
 	ft_putendl(strerror(errno));
 }
 
+void	single_error(char *str)
+{
+	ft_putstr("ft_ls: ");
+	ft_putstr(str);
+	ft_putstr(": ");
+	ft_putendl(strerror(errno));
+}
+
 void	error_comp(char *str, char **tab, int *i)
 {
 	ft_putstr("ft_ls: ");

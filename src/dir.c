@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 12:07:47 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/18 18:20:09 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/19 14:27:36 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ t_dir		*dirnew(char *path, char **file)
 		return (0);
 	new->file = file;
 	new->path = path;
+	// if (!ft_strcmp(path, "/"))
+	// 	new->last_path = "/var/yp/binding";
+	// else
+		new->last_path = path_sup(path);
 	new->rank = 0;
 	new->next = NULL;
 	new->prev = NULL;
@@ -58,31 +62,25 @@ void		startdir(t_dir **file)
 		*file = (*file)->prev;
 }
 
-int			is_end(char *path, char *str)
+char		*last_dir(char *path)
 {
 	DIR				*dir;
-	int				i;
 	struct dirent	*sd;
-	char			**tmp;
+	char			*tmp;
 	struct stat		buf;
 
+	if (path == NULL)
+		return (NULL);
+	tmp = NULL;
 	dir = opendir(path);
-	if (!(tmp = newtab(1)) || dir == NULL)
-		return (-1);
-	tmp[0] = NULL;
-	while ((sd = readdir(dir)) != NULL)
-	{
-		lstat(double_path(str, sd->d_name), &buf);
-		if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+		while ((sd = readdir(dir)) != NULL)
 		{
-			if (tmp[0] == NULL)
-				tmp[0] = double_path(path, sd->d_name);
-			else
-				tmp = add_str_to_tab(tmp, double_path(path, sd->d_name));
+			lstat(double_path(path, sd->d_name), &buf);
+			if (errno == EACCES)
+				single_error(path);
+			else if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+			tmp = double_path(path, sd->d_name);
 		}
-	}
 	closedir(dir);
-	i = tablen(tmp) - 1;
-	printf("tmp = %s\n", tmp[i]);
-	return (ft_strcmp(tmp[i] , str)) ? 0 : 1;
+	return (tmp) ? last_dir(tmp) : path;
 }

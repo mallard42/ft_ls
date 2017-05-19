@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/18 17:46:28 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/19 13:21:00 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct	s_size
 typedef struct	s_dir
 {
 	char			*path;
+	char			*last_path;
 	char			**file;
 	int				rank;
 	struct s_dir	*next;
@@ -113,7 +114,9 @@ void			maj_min(dev_t dev);
 void			print_multi_str(int i, int size, t_dir **lst, int file);
 void			error_comp(char *str, char **tab, int *i);
 void			print_rank(t_opt env, t_dir *lst, int size);
-int				is_end(char *path, char *str);
+//int				is_end(char *path, char *str);
 char			*path_sup(char *str);
+char			*last_dir(char *path);
+void			single_error(char *str);
 
 #endif

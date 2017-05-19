@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/15 15:47:08 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/18 18:20:07 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/19 14:22:37 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ char		*path_sup(char *str)
 	if (str == NULL)
 		return (NULL);
 	i = ft_strlen(str) - 1;
-	while (str[i] != '/')
+	while (str[i] && str[i] != '/')
 		i--;
+	if (!ft_strrchr(str, '/'))
+		return (str);
 	return (ft_strsub(str, 0, i));
 }
 
@@ -63,6 +65,12 @@ void		print_rank(t_opt env, t_dir *lst, int size)
 	sizelst(&lst);
 	while (lst != NULL)
 	{
+		// printf("lst->path = %s\n", lst->path);
+		// printf("lst->last_path = %s\n", lst->last_path);
+		// printf("ft_strcmp(lst->path, lst->last_path) = %d\n", ft_strcmp(lst->path, lst->last_path));
+		printf("rank = %d\n", lst->rank);
+		if (ft_strcmp(lst->path, lst->last_path) != 0 && lst->rank >= 1)
+			ft_putstr("\n");
 		if (lst->rank > 0)
 		{
 			ft_putstr(lst->path);
@@ -72,8 +80,6 @@ void		print_rank(t_opt env, t_dir *lst, int size)
 			opt_l(lst->path, lst->file, env, 1);
 		else
 			print_tab(lst->file);
-		if (size > 0 && is_end(path_sup(lst->path), lst->path) == 0)
-			ft_putstr("\n");
 		lst = lst->prev;
 	}
 }
