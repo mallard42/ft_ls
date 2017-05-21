@@ -14,7 +14,7 @@
 
 void	print_file(t_opt env, t_dir **lst, char **tab)
 {
-	option_sort(env, *lst, 0);
+	option_sort(env, *lst, 0, 0);
 	if (env.opt_l == 1)
 		opt_l((*lst)->path, (*lst)->file, env, 0);
 	else
@@ -30,21 +30,26 @@ void	multi_option(char **tab)
 	t_dir	*lst;
 	char	**file;
 
+	file = NULL;
 	lst = NULL;
 	check_option(tabtostr(tab), "ARUacdlrtu");
 	env = rec_option(tabtostr(tab));
 	tab = del_str_to_tab(tab, 1);
+	if (env.opt_d == 1)
+		option_add(env, tab, 0);
+		else
+	{
 	file = check_file(tab);
 	if (*file != NULL)
 		if ((lst = dirnew(NULL, file)))
 			print_file(env, &lst, tab);
 	if (*tab != NULL)
 	{
-		if (env.opt_d == 0)
 			if ((lst = dirnew(".", tab)))
-				option_sort(env, lst, 0);
-		option_add(env, tab, 0);
+				option_sort(env, lst, 0, ((*file) ? 1 : 0));
+		option_add(env, tab, ((*file) ? 1 : 0));
 	}
+}
 }
 
 void	multi_str(char **tab)

@@ -39,7 +39,7 @@ FLAGS = -Werror -Wextra -Wall -g
 
 all : $(NAME)
 
-norme : 
+norme :
 	@echo "$(RED)norme sources et includes$(DEFAULT)"
 	@norminette ./include libft/include
 	@norminette $(SRC) libft/src
@@ -59,8 +59,10 @@ clean :
 
 fclean : clean
 	@echo "$(GREEN)clean $(NAME)$(DEFAULT)"
+	@echo "$(GREEN)clean libft.a $(DEFAULT)"
+	@$(MAKE) fclean -C ./libft
 	@rm -f $(NAME)
 
 re : fclean all
 
-.PHONY : all $(LIBFT) $(NAME) clean fclean re norme
+.PHONY : re all norme $(NAME) clean fclean $(LIBFT)

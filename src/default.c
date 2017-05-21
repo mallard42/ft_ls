@@ -35,6 +35,7 @@ void	default_sort(char **file)
 void	char_del(char **tab, int i)
 {
 	int		size;
+	char	tmp;
 
 	size = tablen(tab);
 	while (i < size)

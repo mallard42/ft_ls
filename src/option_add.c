@@ -14,7 +14,7 @@
 
 void	opt_d(t_opt env, char **tab, t_dir *lst, int size)
 {
-	option_sort(env, lst, 0);
+	option_sort(env, lst, 0, size);
 	if (env.opt_l == 1)
 		opt_l(lst->path, lst->file, env, 1);
 	else
@@ -66,7 +66,7 @@ void	recursive_file(char *str, t_opt env, int size, int rank)
 			if (S_ISDIR(buf.st_mode) && i > 1 && ft_strncmp(sd->d_name, ".", 1))
 			{
 				tmp = double_path(str, sd->d_name);
-				recursive_file(tmp, env, size, rank + 1);
+				recursive_file(tmp, env, size, ((rank == 0) ? rank + 1 : rank));
 			}
 			i++;
 		}

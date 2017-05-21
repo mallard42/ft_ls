@@ -49,6 +49,8 @@ char		*path_sup(char *str)
 	if (str == NULL)
 		return (NULL);
 	i = ft_strlen(str) - 1;
+	if (i == 0)
+	return (str);
 	while (str[i] && str[i] != '/')
 		i--;
 	if (!ft_strrchr(str, '/'))
@@ -59,19 +61,16 @@ char		*path_sup(char *str)
 void		print_rank(t_opt env, t_dir *lst, int size)
 {
 	int		i;
+	int		t;
 
 	i = 0;
-	option_sort(env, lst, 0);
-	sizelst(&lst);
+	option_sort(env, lst, 0, size);
+	t = sizelst(&lst);
 	while (lst != NULL)
 	{
-		// printf("lst->path = %s\n", lst->path);
-		// printf("lst->last_path = %s\n", lst->last_path);
-		// printf("ft_strcmp(lst->path, lst->last_path) = %d\n", ft_strcmp(lst->path, lst->last_path));
-		printf("rank = %d\n", lst->rank);
 		if (ft_strcmp(lst->path, lst->last_path) != 0 && lst->rank >= 1)
 			ft_putstr("\n");
-		if (lst->rank > 0)
+		if (lst->rank > 0 || size > 0)
 		{
 			ft_putstr(lst->path);
 			ft_putendl(":");

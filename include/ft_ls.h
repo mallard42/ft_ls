@@ -65,7 +65,7 @@ void			diradd(t_dir **file, t_dir *new);
 void			multi_option(char **tab);
 t_opt			rec_option(char *str);
 void			option_add(t_opt env, char **tab, int size);
-void			option_sort(t_opt env, t_dir *lst, int print);
+void			option_sort(t_opt env, t_dir *lst, int print, int size);
 void			check_option(char *str, char *option);
 void			error_option(char option);
 char			**newtab(int size);

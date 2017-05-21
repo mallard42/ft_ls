@@ -49,7 +49,7 @@ void	option_add(t_opt env, char **tab, int size)
 		else
 		{
 			dir_default(tab, env, &lst);
-			option_sort(env, lst, 1);
+			option_sort(env, lst, 1, size);
 		}
 	}
 }
@@ -58,7 +58,7 @@ void	option_print(t_opt env, t_dir *lst, int size, int i)
 {
 	if (size != 1)
 	{
-		if (lst->path != NULL)
+		if (lst->path != NULL && i > 0)
 		{
 			ft_putstr(lst->path);
 			ft_putendl(":");
@@ -68,17 +68,17 @@ void	option_print(t_opt env, t_dir *lst, int size, int i)
 		opt_l(lst->path, lst->file, env, 1);
 	else
 		print_tab(lst->file);
-	if (i != size - 1)
+	if (lst->prev != NULL)
 		ft_putstr("\n");
 }
 
-void	option_sort(t_opt env, t_dir *lst, int print)
+void	option_sort(t_opt env, t_dir *lst, int print, int size)
 {
-	int		size;
+	int		s;
 	int		i;
 
 	i = 0;
-	size = sizelst(&lst);
+	s = sizelst(&lst) + size;
 	while (lst != NULL)
 	{
 		if (env.opt_t == 1)
@@ -94,7 +94,7 @@ void	option_sort(t_opt env, t_dir *lst, int print)
 		if (env.opt_r == 1)
 			rev_sort(lst->file);
 		if (print == 1)
-			option_print(env, lst, size, i);
+			option_print(env, lst, s, size);
 		lst = lst->prev;
 		i++;
 	}
