@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 10:31:59 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/19 14:24:58 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/26 16:11:16 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,57 +21,80 @@ void	opt_d(t_opt env, char **tab, t_dir *lst, int size)
 		print_tab(lst->file);
 }
 
-void	ft_default(char *str, t_opt env, int size, int rank)
+void	ft_default(char **tab, t_opt env, int size, int rank)
 {
-	struct dirent	*sd;
-	DIR				*dir;
-	char			**tmp;
-	t_dir			*new;
+	char	*origin;
+	t_dir	*tmp;
+	int		i;
+	char	**tmp2;
 
+	if ((tmp = dirnew(".", tab, 0)))
+		option_sort(env, tmp, 0, size);
+	free(tmp);
 	tmp = NULL;
-	dir = opendir(str);
-	if (dir == NULL)
-		error(str, env);
-	else
+	dir_default(tab, env, &tmp, rank);
+	option_sort(env, tmp, 0, size);
+	sizelst(&tmp);
+	while (tmp)
 	{
-		tmp = opt_a(dir, str, env);
-		closedir(dir);
-		default_sort(tmp);
-		if ((new = dirnew(str, tmp)))
-		{
-			new->rank = rank;
-			print_rank(env, new, size);
-		}
+		i = 0;
+		print_rank(env, tmp, size);
+		while ((tmp->file)[i] && !if_dir((tmp->file)[i]))
+			i++;
+		i--;
+		tmp2 = recursive_file(tmp->path, env, size, rank + 1);
+		if (*tmp2)
+			option_add(env, tmp2, size);
+		tmp = tmp->prev;
 	}
 }
 
-void	recursive_file(char *str, t_opt env, int size, int rank)
+int		if_dir(char *str)
 {
 	struct dirent	*sd;
 	struct stat		buf;
 	DIR				*dir;
-	int				i;
-	char			*tmp;
 
-	i = 0;
 	dir = opendir(str);
 	if (dir == NULL)
-		error(str, env);
+		return (0);
 	else
 	{
-		ft_default(str, env, size, rank);
 		while ((sd = readdir(dir)) != NULL)
 		{
 			lstat(double_path(str, sd->d_name), &buf);
-			if (S_ISDIR(buf.st_mode) && i > 1 && ft_strncmp(sd->d_name, ".", 1))
-			{
-				tmp = double_path(str, sd->d_name);
-				recursive_file(tmp, env, size, ((rank == 0) ? rank + 1 : rank));
-			}
-			i++;
+			if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+				return (1);
 		}
 		closedir(dir);
 	}
+	return (0);
+}
+
+char	**recursive_file(char *str, t_opt env, int size, int rank)
+{
+	struct dirent	*sd;
+	struct stat		buf;
+	DIR				*dir;
+	char			**tmp;
+
+	dir = opendir(str);
+	if (!(tmp = newtab(1)) || dir == NULL)
+		return (NULL);
+	tmp[0] = NULL;
+	while ((sd = readdir(dir)) != NULL)
+	{
+		lstat(double_path(str, sd->d_name), &buf);
+		if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+		{
+			if (tmp[0] == NULL)
+				tmp[0] = double_path(str, sd->d_name);
+			else
+				tmp = add_str_to_tab(tmp, double_path(str, sd->d_name));
+		}
+	}
+	closedir(dir);
+	return (tmp);
 }
 
 char	**opt_a(DIR *dir, char *str, t_opt env)

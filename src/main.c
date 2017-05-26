@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:43:12 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/19 14:27:38 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/26 15:46:12 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,19 @@ void	multi_option(char **tab)
 	tab = del_str_to_tab(tab, 1);
 	if (env.opt_d == 1)
 		option_add(env, tab, 0);
-		else
+	else
 	{
-	file = check_file(tab);
-	if (*file != NULL)
-		if ((lst = dirnew(NULL, file)))
-			print_file(env, &lst, tab);
-	if (*tab != NULL)
-	{
-			if ((lst = dirnew(".", tab)))
+		file = check_file(tab);
+		if (*file != NULL)
+			if ((lst = dirnew(NULL, file, 0)))
+				print_file(env, &lst, tab);
+		if (*tab != NULL)
+		{
+			if ((lst = dirnew(".", tab, 0)))
 				option_sort(env, lst, 0, ((*file) ? 1 : 0));
-		option_add(env, tab, ((*file) ? 1 : 0));
+			option_add(env, tab, ((*file) ? 1 : 0));
+		}
 	}
-}
 }
 
 void	multi_str(char **tab)
@@ -71,7 +71,7 @@ void	multi_str(char **tab)
 	{
 		if (*file != NULL)
 			ft_putstr("\n");
-		dir_default(tab, env, &lst);
+		dir_default(tab, env, &lst, tablen(tab) - 1);
 		size = (*file) ? sizelst(&lst) + 1 : sizelst(&lst);
 		while (lst != NULL)
 		{

@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/19 13:21:00 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/26 14:44:22 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct	s_dir
 	struct s_dir	*prev;
 }				t_dir;
 
-t_dir			*dirnew(char *path, char **file);
+t_dir			*dirnew(char *path, char **file, int rank);
 void			diradd(t_dir **file, t_dir *new);
 void			multi_option(char **tab);
 t_opt			rec_option(char *str);
@@ -77,7 +77,7 @@ char			*double_path(char *s1, char *s2);
 void			ft_single_path(char *s1, int i);
 char			**maj_r(char **tab);
 void			default_sort(char **file);
-void			dir_default(char **tab, t_opt env, t_dir **lst);
+void			dir_default(char **tab, t_opt env, t_dir **lst,int rank);
 char			**opt_a(DIR *dir, char *str, t_opt env);
 void			rev_sort(char **lst);
 char			*info_file(struct stat buf, struct dirent *sd);
@@ -87,13 +87,13 @@ void			ini_opt(t_opt *env);
 void			add_space(char **tab);
 void			startdir(t_dir **file);
 void			opt_l(char *str, char **tab, t_opt env, int t);
-void			recursive_file(char *str, t_opt env, int size, int rank);
+char			**recursive_file(char *str, t_opt env, int size, int rank);
 void			creation_sort(char *path, char **tab);
 void			access_sort(char *path, char **tab);
 void			status_sort(char *path, char **tab);
 int				sizelst(t_dir **file);
 void			option_print(t_opt env, t_dir *lst, int size, int i);
-void			ft_default(char *str, t_opt env, int size, int rank);
+void			ft_default(char **tab, t_opt env, int size, int rank);
 void			l_total(char *str, char **tab);
 void			mode_file(char *str, struct stat buf);
 void			check_mode(char **tab);
@@ -114,9 +114,9 @@ void			maj_min(dev_t dev);
 void			print_multi_str(int i, int size, t_dir **lst, int file);
 void			error_comp(char *str, char **tab, int *i);
 void			print_rank(t_opt env, t_dir *lst, int size);
-//int				is_end(char *path, char *str);
 char			*path_sup(char *str);
 char			*last_dir(char *path);
 void			single_error(char *str);
+int				if_dir(char *str);
 
 #endif

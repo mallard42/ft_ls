@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/19 14:26:00 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/26 15:45:24 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,16 @@ void	option_add(t_opt env, char **tab, int size)
 	lst = NULL;
 	if (env.opt_d == 1)
 	{
-		if ((lst = dirnew(".", tab)))
+		if ((lst = dirnew(".", tab, 0)))
 			opt_d(env, tab, lst, size);
 	}
 	else
 	{
 		if (env.opt_maj_r == 1)
-			while (tab[++i] != NULL)
-				recursive_file(tab[i], env, size, tablen(tab) - 1 + i);
+			ft_default(tab, env, size, tablen(tab) - 1);
 		else
 		{
-			dir_default(tab, env, &lst);
+			dir_default(tab, env, &lst, tablen(tab));
 			option_sort(env, lst, 1, size);
 		}
 	}
@@ -56,9 +55,9 @@ void	option_add(t_opt env, char **tab, int size)
 
 void	option_print(t_opt env, t_dir *lst, int size, int i)
 {
-	if (size != 1)
+	if (size > 1)
 	{
-		if (lst->path != NULL && i > 0)
+		if (lst->path != NULL && lst->rank >= 1)
 		{
 			ft_putstr(lst->path);
 			ft_putendl(":");
@@ -94,7 +93,7 @@ void	option_sort(t_opt env, t_dir *lst, int print, int size)
 		if (env.opt_r == 1)
 			rev_sort(lst->file);
 		if (print == 1)
-			option_print(env, lst, s, size);
+			option_print(env, lst, s, i);
 		lst = lst->prev;
 		i++;
 	}

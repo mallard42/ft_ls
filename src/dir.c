@@ -6,13 +6,13 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 12:07:47 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/19 14:27:36 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/26 16:01:06 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
 
-t_dir		*dirnew(char *path, char **file)
+t_dir		*dirnew(char *path, char **file, int rank)
 {
 	t_dir			*new;
 
@@ -21,11 +21,8 @@ t_dir		*dirnew(char *path, char **file)
 		return (0);
 	new->file = file;
 	new->path = path;
-	// if (!ft_strcmp(path, "/"))
-	// 	new->last_path = "/var/yp/binding";
-	// else
-		new->last_path = path_sup(path);
-	new->rank = 0;
+	new->last_path = path_sup(path);
+	new->rank = rank;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -73,14 +70,14 @@ char		*last_dir(char *path)
 		return (NULL);
 	tmp = NULL;
 	dir = opendir(path);
-		while ((sd = readdir(dir)) != NULL)
-		{
-			lstat(double_path(path, sd->d_name), &buf);
-			if (errno == EACCES)
-				single_error(path);
-			else if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+	while ((sd = readdir(dir)) != NULL)
+	{
+		lstat(double_path(path, sd->d_name), &buf);
+		if (errno == EACCES)
+			single_error(path);
+		else if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
 			tmp = double_path(path, sd->d_name);
-		}
+	}
 	closedir(dir);
 	return (tmp) ? last_dir(tmp) : path;
 }

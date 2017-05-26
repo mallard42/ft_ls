@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:37:10 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/19 14:17:52 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/26 16:01:59 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		opt_l(char *str, char **tab, t_opt env, int t)
 		if (errno == EACCES)
 			single_error(tab[i]);
 		else
-		print_l(tab[i], env, size, buf);
+			print_l(tab[i], env, size, buf);
 		i++;
 	}
 }
@@ -87,7 +87,7 @@ void		print_l(char *str, t_opt env, t_size size, struct stat buf)
 		maj_min(buf.st_rdev);
 	else
 		print_space(ft_itoa((int)buf.st_size), size.size_file + 2, 1);
-	tmp  = info_time(env, buf);
+	tmp = info_time(env, buf);
 	print_space(tmp, 11, 1);
 	if (S_ISLNK(buf.st_mode))
 		is_link(str);

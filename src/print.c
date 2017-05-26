@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/15 15:47:08 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/19 14:22:37 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/26 16:11:13 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char		*path_sup(char *str)
 		return (NULL);
 	i = ft_strlen(str) - 1;
 	if (i == 0)
-	return (str);
+		return (str);
 	while (str[i] && str[i] != '/')
 		i--;
 	if (!ft_strrchr(str, '/'))
@@ -60,25 +60,16 @@ char		*path_sup(char *str)
 
 void		print_rank(t_opt env, t_dir *lst, int size)
 {
-	int		i;
-	int		t;
-
-	i = 0;
-	option_sort(env, lst, 0, size);
-	t = sizelst(&lst);
-	while (lst != NULL)
+	if (ft_strcmp(lst->path, lst->last_path) != 0 && lst->rank >= 1)
+		ft_putstr("\n");
+	if (lst->rank > 0 || size > 0)
 	{
-		if (ft_strcmp(lst->path, lst->last_path) != 0 && lst->rank >= 1)
-			ft_putstr("\n");
-		if (lst->rank > 0 || size > 0)
-		{
-			ft_putstr(lst->path);
-			ft_putendl(":");
-		}
-		if (env.opt_l == 1)
-			opt_l(lst->path, lst->file, env, 1);
-		else
-			print_tab(lst->file);
-		lst = lst->prev;
+		ft_putstr(lst->path);
+		ft_putendl(":");
 	}
+	if (env.opt_l == 1)
+		opt_l(lst->path, lst->file, env, 1);
+	else
+		print_tab(lst->file);
+	//ft_putstr("\n");
 }
