@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/26 15:45:24 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/28 19:48:35 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_opt	rec_option(char *str)
 	return (env);
 }
 
-void	option_add(t_opt env, char **tab, int size)
+void	option_add(t_opt env, char **tab, int size, int rank)
 {
 	int		i;
 	t_dir	*lst;
@@ -44,7 +44,7 @@ void	option_add(t_opt env, char **tab, int size)
 	else
 	{
 		if (env.opt_maj_r == 1)
-			ft_default(tab, env, size, tablen(tab) - 1);
+			ft_default(tab, env, size, rank);
 		else
 		{
 			dir_default(tab, env, &lst, tablen(tab));
@@ -57,7 +57,7 @@ void	option_print(t_opt env, t_dir *lst, int size, int i)
 {
 	if (size > 1)
 	{
-		if (lst->path != NULL && lst->rank >= 1)
+		if (lst->path != NULL && lst->rank > 0)
 		{
 			ft_putstr(lst->path);
 			ft_putendl(":");

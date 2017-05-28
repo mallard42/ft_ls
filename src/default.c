@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:03:37 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/26 10:27:11 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/28 19:38:09 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void	dir_default(char **tab, t_opt env, t_dir **lst, int rank)
 		else
 			diradd(lst, new);
 		i++;
+		rank++;
 	}
 }

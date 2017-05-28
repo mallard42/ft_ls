@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 10:31:59 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/26 16:11:16 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/28 19:59:04 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_default(char **tab, t_opt env, int size, int rank)
 		i--;
 		tmp2 = recursive_file(tmp->path, env, size, rank + 1);
 		if (*tmp2)
-			option_add(env, tmp2, size);
+			option_add(env, tmp2, size, rank + 1);
 		tmp = tmp->prev;
 	}
 }

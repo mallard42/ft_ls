@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/26 14:44:22 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/28 19:41:53 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct	s_size
 typedef struct	s_dir
 {
 	char			*path;
-	char			*last_path;
+	char			*first;
 	char			**file;
 	int				rank;
 	struct s_dir	*next;
@@ -64,7 +64,7 @@ t_dir			*dirnew(char *path, char **file, int rank);
 void			diradd(t_dir **file, t_dir *new);
 void			multi_option(char **tab);
 t_opt			rec_option(char *str);
-void			option_add(t_opt env, char **tab, int size);
+void			option_add(t_opt env, char **tab, int size, int rank);
 void			option_sort(t_opt env, t_dir *lst, int print, int size);
 void			check_option(char *str, char *option);
 void			error_option(char option);
