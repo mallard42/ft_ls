@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:03:37 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/28 19:38:09 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 15:48:59 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,17 @@ void	dir_default(char **tab, t_opt env, t_dir **lst, int rank)
 	char	**tmp;
 
 	*lst = NULL;
-	tmp = NULL;
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		dir = opendir(tab[i]);
-		if (dir == NULL)
-			error(tab[i], env);
+		tmp = NULL;
+		if ((dir = opendir(tab[i])) == NULL)
+			tmp = error(tab[i]);
 		else
+		{
 			tmp = opt_a(dir, tab[i], env);
+			closedir(dir);
+		}
 		new = dirnew(tab[i], tmp, rank);
 		if (*lst == NULL)
 			*lst = dirnew(tab[i], tmp, rank);

@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/12 15:54:23 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/16 15:22:44 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/30 16:28:58 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_size		ini_size(char **tab, char *str)
 	while (tab[i])
 	{
 		lstat(double_path(str, tab[i]), &buf);
+		if (errno == EACCES)
+			return (size);
 		ini_user(buf, &size);
 		i++;
 	}

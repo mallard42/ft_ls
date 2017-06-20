@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 10:35:43 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/22 11:16:08 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 16:01:52 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_tab(char **tab)
 {
 	int		i;
 
-	if (tab)
+	if (*tab)
 	{
 		i = 0;
 		while (tab[i] != NULL)
@@ -72,8 +72,10 @@ char	**del_str_to_tab(char **tab, int j)
 	char	**tmp;
 	int		i;
 
-	i = 0;
-	while (tab[j] != NULL && tab[j][0] == '-')
+	i = -1;
+	while (tab[j] != NULL && tab[j][0] == '-' && ft_strcmp(tab[j], "--"))
+		j++;
+	if (tab[j] && ft_strcmp(tab[j], "--") == 0)
 		j++;
 	if (j == tablen(tab))
 	{
@@ -87,11 +89,9 @@ char	**del_str_to_tab(char **tab, int j)
 			return (0);
 		while (j < tablen(tab))
 		{
-			tmp[i] = tab[j];
-			i++;
+			tmp[++i] = tab[j];
 			j++;
 		}
 	}
-	default_sort(tmp);
 	return (tmp);
 }

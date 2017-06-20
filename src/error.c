@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:47:21 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/16 16:36:37 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 15:12:30 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ void	error_option(char option)
 	exit(EXIT_FAILURE);
 }
 
-void	error(char *str, t_opt env)
+char	**error(char *str)
 {
-	if (errno == EACCES && env.opt_maj_r == 1)
-	{
-		ft_putstr(str);
-		ft_putendl(":");
-	}
-	ft_putstr("ft_ls: ");
-	ft_putstr(str);
-	ft_putstr(": ");
-	ft_putendl(strerror(errno));
+	char	**tmp;
+
+	if (!(tmp = newtab(1)))
+		return (NULL);
+	tmp[0] = ft_strdup("ft_ls: ");
+	tmp[0] = ft_strjoin(tmp[0], str);
+	tmp[0] = ft_strjoin(tmp[0], ": ");
+	tmp[0] = ft_strjoin(tmp[0], strerror(errno));
+	return (tmp);
 }
 
 void	single_error(char *str)

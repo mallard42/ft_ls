@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 16:48:27 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/28 12:21:51 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 14:31:23 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ char	**check_file(char **tab)
 	while (tab[++i] != NULL)
 	{
 		lstat(tab[i], &buf);
-		if (errno == ENOENT)
-			error_comp(tab[i], tab, &i);
-		else if (S_ISDIR(buf.st_mode) == 0)
+		if (S_ISDIR(buf.st_mode) == 0)
 		{
 			if (tmp[0] == NULL)
 				tmp[0] = ft_strdup(tab[i]);
@@ -58,4 +56,44 @@ char	**check_file(char **tab)
 		}
 	}
 	return (tmp);
+}
+
+int		check_mode(char *str, t_opt env)
+{
+	DIR				*dir;
+	int				i;
+
+	i = 0;
+	if (str)
+	{
+		dir = opendir(str);
+		i = (dir == NULL) ? 0 : 1;
+		if (dir)
+			closedir(dir);
+	}
+	return (i);
+}
+
+int		check_tab(char **tab)
+{
+	struct stat		buf;
+	int				i;
+	int				error;
+
+	error = 0;
+	if (*tab)
+	{
+		i = 0;
+		while (tab[i])
+		{
+			lstat(tab[i], &buf);
+			if (errno == ENOENT)
+			{
+				error++;
+				error_comp(tab[i], tab, &i);
+			}
+			i++;
+		}
+	}
+	return (error);
 }

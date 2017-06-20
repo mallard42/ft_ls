@@ -6,13 +6,13 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/04 13:37:10 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/26 16:01:59 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 15:45:33 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
 
-void		is_link(char *str)
+void		is_link(char *str, char *path)
 {
 	struct stat		buf;
 	int				ret;
@@ -20,16 +20,12 @@ void		is_link(char *str)
 	char			buff[1096];
 
 	lstat(str, &buf);
-	if (S_ISLNK(buf.st_mode))
+	if ((ret = readlink(path, buff, 1096)) != -1)
 	{
-		if ((ret = readlink(str, buff, 1096)) != -1)
-		{
-			ret = readlink(str, buff, 32);
-			buff[ret] = '\0';
-			link = ft_strjoin(str, " -> ");
-			link = ft_strjoin(link, buff);
-			ft_putendl(link);
-		}
+		buff[ret] = '\0';
+		link = ft_strjoin(str, " -> ");
+		link = ft_strjoin(link, buff);
+		ft_putendl(link);
 	}
 }
 
@@ -66,7 +62,13 @@ void		opt_l(char *str, char **tab, t_opt env, int t)
 		if (errno == EACCES)
 			single_error(tab[i]);
 		else
+		{
 			print_l(tab[i], env, size, buf);
+			if (S_ISLNK(buf.st_mode))
+				is_link(tab[i], double_path(str, tab[i]));
+			else
+				ft_putendl(tab[i]);
+		}
 		i++;
 	}
 }
@@ -89,10 +91,6 @@ void		print_l(char *str, t_opt env, t_size size, struct stat buf)
 		print_space(ft_itoa((int)buf.st_size), size.size_file + 2, 1);
 	tmp = info_time(env, buf);
 	print_space(tmp, 11, 1);
-	if (S_ISLNK(buf.st_mode))
-		is_link(str);
-	else
-		ft_putendl(str);
 }
 
 void		print_space(char *str, int size, int free)

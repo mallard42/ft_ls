@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 10:31:59 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/28 19:59:04 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 16:01:42 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void	ft_default(char **tab, t_opt env, int size, int rank)
 {
 	char	*origin;
 	t_dir	*tmp;
-	int		i;
 	char	**tmp2;
+	DIR		*dir;
 
+	tmp2 = NULL;
 	if ((tmp = dirnew(".", tab, 0)))
 		option_sort(env, tmp, 0, size);
 	free(tmp);
@@ -37,14 +38,14 @@ void	ft_default(char **tab, t_opt env, int size, int rank)
 	sizelst(&tmp);
 	while (tmp)
 	{
-		i = 0;
 		print_rank(env, tmp, size);
-		while ((tmp->file)[i] && !if_dir((tmp->file)[i]))
-			i++;
-		i--;
-		tmp2 = recursive_file(tmp->path, env, size, rank + 1);
-		if (*tmp2)
-			option_add(env, tmp2, size, rank + 1);
+		if ((dir = opendir(tmp->path)) != NULL)
+		{
+			closedir(dir);
+			tmp2 = recursive_file(tmp->path, env, size, rank + 1);
+			if (*tmp2)
+				option_add(env, tmp2, size, rank + 1);
+		}
 		tmp = tmp->prev;
 	}
 }
@@ -64,7 +65,10 @@ int		if_dir(char *str)
 		{
 			lstat(double_path(str, sd->d_name), &buf);
 			if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+			{
+				closedir(dir);
 				return (1);
+			}
 		}
 		closedir(dir);
 	}
@@ -78,8 +82,12 @@ char	**recursive_file(char *str, t_opt env, int size, int rank)
 	DIR				*dir;
 	char			**tmp;
 
-	dir = opendir(str);
-	if (!(tmp = newtab(1)) || dir == NULL)
+	if ((dir = opendir(str)) == NULL)
+	{
+		error(str);
+		return (NULL);
+	}
+	if (!(tmp = newtab(1)))
 		return (NULL);
 	tmp[0] = NULL;
 	while ((sd = readdir(dir)) != NULL)

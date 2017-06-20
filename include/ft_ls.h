@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:39:44 by mallard           #+#    #+#             */
-/*   Updated: 2017/05/28 19:41:53 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 15:25:49 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct	s_dir
 
 t_dir			*dirnew(char *path, char **file, int rank);
 void			diradd(t_dir **file, t_dir *new);
-void			multi_option(char **tab);
+void			multi_option(char **tab, t_opt env, int i);
 t_opt			rec_option(char *str);
 void			option_add(t_opt env, char **tab, int size, int rank);
 void			option_sort(t_opt env, t_dir *lst, int print, int size);
@@ -77,7 +77,7 @@ char			*double_path(char *s1, char *s2);
 void			ft_single_path(char *s1, int i);
 char			**maj_r(char **tab);
 void			default_sort(char **file);
-void			dir_default(char **tab, t_opt env, t_dir **lst,int rank);
+void			dir_default(char **tab, t_opt env, t_dir **lst, int rank);
 char			**opt_a(DIR *dir, char *str, t_opt env);
 void			rev_sort(char **lst);
 char			*info_file(struct stat buf, struct dirent *sd);
@@ -96,8 +96,8 @@ void			option_print(t_opt env, t_dir *lst, int size, int i);
 void			ft_default(char **tab, t_opt env, int size, int rank);
 void			l_total(char *str, char **tab);
 void			mode_file(char *str, struct stat buf);
-void			check_mode(char **tab);
-void			error(char *str, t_opt env);
+int				check_mode(char *str, t_opt env);
+char			**error(char *str);
 char			**check_file(char **tab);
 void			char_del(char **tab, int i);
 void			dirfree_end(t_dir **lst);
@@ -118,5 +118,6 @@ char			*path_sup(char *str);
 char			*last_dir(char *path);
 void			single_error(char *str);
 int				if_dir(char *str);
+int				check_tab(char **tab);
 
 #endif
