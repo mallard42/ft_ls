@@ -6,13 +6,13 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 12:07:47 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 17:52:12 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/19 17:13:42 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
 
-t_dir		*dirnew(char *path, char **file)
+t_dir		*dirnew(char *path, char **file, int rank)
 {
 	t_dir			*new;
 
@@ -21,6 +21,8 @@ t_dir		*dirnew(char *path, char **file)
 		return (0);
 	new->file = file;
 	new->path = path;
+	new->first = path_sup(path);
+	new->rank = rank;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
@@ -37,7 +39,7 @@ void		diradd(t_dir **file, t_dir *new)
 	}
 }
 
-int		sizelst(t_dir **file)
+int			sizelst(t_dir **file)
 {
 	int		i;
 
@@ -57,26 +59,25 @@ void		startdir(t_dir **file)
 		*file = (*file)->prev;
 }
 
-int			size_dir(char *str, int a)
+char		*last_dir(char *path)
 {
 	DIR				*dir;
-	int				i;
 	struct dirent	*sd;
+	char			*tmp;
+	struct stat		buf;
 
-	i = 0;
-	dir = opendir(str);
-	if (dir == NULL)
-		return (0);
+	if (path == NULL)
+		return (NULL);
+	tmp = NULL;
+	dir = opendir(path);
 	while ((sd = readdir(dir)) != NULL)
 	{
-		if (a == 1)
-			i++;
-		else
-		{
-			if (sd->d_name[0] != '.')
-				i++;
-		}
+		lstat(double_path(path, sd->d_name), &buf);
+		if (errno == EACCES)
+			single_error(path);
+		else if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+			tmp = double_path(path, sd->d_name);
 	}
 	closedir(dir);
-	return (i);
+	return (tmp) ? last_dir(tmp) : path;
 }

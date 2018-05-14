@@ -6,15 +6,15 @@
 #    By: mallard <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/08 12:39:07 by mallard           #+#    #+#              #
-#    Updated: 2017/04/21 11:34:21 by mallard          ###   ########.fr        #
+#    Updated: 2017/06/21 15:31:04 by mallard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-PURPLE = \x1b[35m
+PURPLE = \033[38;5;105m
 
-GREEN = \x1b[32m
+GREEN = \033[38;5;82m
 
-RED = \x1b[33m
+RED = \033[38;5;208m
 
 DEFAULT = \x1b[0m
 
@@ -30,16 +30,16 @@ LIBFT = ./libft/libft.a
 
 SRC = $(P)main.c $(P)option.c $(P)dir.c $(P)error.c $(P)option_add.c $(P)tab.c \
 	  $(P)path.c $(P)default.c $(P)option_print.c $(P)option_sort.c \
-	  $(P)check.c $(P)free.c
+	  $(P)check.c $(P)free.c $(P)opt_l.c $(P)size.c $(P)print.c
 
 OBJ = main.o option.o dir.o error.o option_add.o tab.o path.o default.o \
-	  option_print.o option_sort.o check.o free.o
+	  option_print.o option_sort.o check.o free.o opt_l.o size.o print.o
 
 FLAGS = -Werror -Wextra -Wall -g
 
-all : $(NAME)
+all : $(NAME) norme
 
-norme : 
+norme :
 	@echo "$(RED)norme sources et includes$(DEFAULT)"
 	@norminette ./include libft/include
 	@norminette $(SRC) libft/src
@@ -59,8 +59,10 @@ clean :
 
 fclean : clean
 	@echo "$(GREEN)clean $(NAME)$(DEFAULT)"
+	@echo "$(GREEN)clean libft.a $(DEFAULT)"
+	@$(MAKE) fclean -C ./libft
 	@rm -f $(NAME)
 
 re : fclean all
 
-.PHONY : all $(LIBFT) $(NAME) clean fclean re norme
+.PHONY : re all norme $(NAME) clean fclean $(LIBFT)

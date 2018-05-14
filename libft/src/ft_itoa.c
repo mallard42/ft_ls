@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/22 14:27:59 by mallard           #+#    #+#             */
-/*   Updated: 2016/12/03 18:09:42 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/16 16:43:45 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,15 @@ static char			*alloc(long n)
 	return (str);
 }
 
-static char			*instr(int div, long nbr, char *str)
+static char			*instr(int div, size_t nbr, int n)
 {
 	long			i;
+	char			*str;
 
+	if (!(str = alloc(nbr)))
+		return (NULL);
+	if (n < 0)
+		str[0] = '-';
 	i = 0;
 	if (str[i] == '-')
 		i = 1;
@@ -52,17 +57,11 @@ char				*ft_itoa(int n)
 {
 	int				div;
 	size_t			nb;
-	long			nbr;
 	char			*str;
 
 	str = NULL;
 	div = 1;
-	nbr = n;
-	if (!(str = alloc(nbr)))
-		return (NULL);
-	if (n < 0)
-		str[0] = '-';
 	nb = ft_abs(n);
-	str = instr(div, nb, str);
+	str = instr(div, nb, n);
 	return (str);
 }

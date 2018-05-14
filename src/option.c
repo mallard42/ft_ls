@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 18:31:53 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:09:19 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 14:45:43 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_opt	rec_option(char *str)
 	return (env);
 }
 
-void	option_add(t_opt env, char **tab)
+void	option_add(t_opt env, char **tab, int size, int rank)
 {
 	int		i;
 	t_dir	*lst;
@@ -38,46 +38,46 @@ void	option_add(t_opt env, char **tab)
 	lst = NULL;
 	if (env.opt_d == 1)
 	{
-		if (!(lst = dirnew(".", tab)))
-			return;
-		option_sort(env, lst, 0, tab);
-		opt_d(env, tab);
+		if ((lst = dirnew(".", tab, 0)))
+			opt_d(env, tab, lst, size);
 	}
 	else
 	{
 		if (env.opt_maj_r == 1)
-			while (tab[++i] != NULL)
-				recursive_file(tab[i], env);
+			ft_default(tab, env, size, rank);
 		else
 		{
-			dir_default(tab, env, &lst);
-			option_sort(env, lst, 1, tab);
+			dir_default(tab, env, &lst, tablen(tab));
+			option_sort(env, lst, 1, size);
 		}
 	}
 }
 
 void	option_print(t_opt env, t_dir *lst, int size, int i)
 {
-	if (size != 1)
+	if (size > 1)
 	{
-		ft_putstr(lst->path);
-		ft_putendl(":");
+		if (lst->path != NULL && lst->rank > 0)
+		{
+			ft_putstr(lst->path);
+			ft_putendl(":");
+		}
 	}
 	if (env.opt_l == 1)
 		opt_l(lst->path, lst->file, env, 1);
 	else
 		print_tab(lst->file);
-	if (i != size - 1)
+	if (lst->prev != NULL)
 		ft_putstr("\n");
 }
 
-void	option_sort(t_opt env, t_dir *lst, int print, char **tab)
+void	option_sort(t_opt env, t_dir *lst, int print, int size)
 {
-	int		size;
+	int		s;
 	int		i;
 
 	i = 0;
-	size = sizelst(&lst);
+	s = sizelst(&lst) + size;
 	while (lst != NULL)
 	{
 		if (env.opt_t == 1)
@@ -93,7 +93,7 @@ void	option_sort(t_opt env, t_dir *lst, int print, char **tab)
 		if (env.opt_r == 1)
 			rev_sort(lst->file);
 		if (print == 1)
-			option_print(env, lst, tablen(tab), i);
+			option_print(env, lst, s, i);
 		lst = lst->prev;
 		i++;
 	}

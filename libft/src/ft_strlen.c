@@ -6,18 +6,17 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/10 12:19:45 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 13:32:00 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/15 12:22:47 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
-#include <stdio.h>
 
 size_t		ft_strlen(char *str)
 {
 	size_t	i;
 
-	if (!str)
+	if (!*str && !str)
 		return (0);
 	i = 0;
 	while (str[i] != '\0')

@@ -1,71 +1,106 @@
-
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   option_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/31 11:57:40 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:22:53 by mallard          ###   ########.fr       */
+/*   Created: 2017/05/10 10:31:59 by mallard           #+#    #+#             */
+/*   Updated: 2017/06/21 15:57:47 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
 
-void	opt_d(t_opt env, char **tab)
+void	opt_d(t_opt env, char **tab, t_dir *lst, int size)
 {
+	option_sort(env, lst, 0, size);
 	if (env.opt_l == 1)
-		opt_l(".", tab, env, 0);
+		opt_l(lst->path, lst->file, env, 1);
 	else
-		print_tab(tab);
+		print_tab(lst->file);
 }
 
-void	ft_default(char *str, t_opt env)
+void	ft_default(char **tab, t_opt env, int size, int rank)
 {
-	struct dirent	*sd;
-	DIR				*dir;
-	char			**tmp;
-	t_dir			*new;
+	char	*origin;
+	t_dir	*tmp;
+	char	**tmp2;
+	DIR		*dir;
 
+	tmp2 = NULL;
+	if ((tmp = dirnew(".", tab, 0)))
+		option_sort(env, tmp, 0, size);
+	free(tmp);
 	tmp = NULL;
-	dir = opendir(str);
-	if (dir == NULL)
-		error(str);
-	else
+	dir_default(tab, env, &tmp, rank);
+	option_sort(env, tmp, 0, size);
+	sizelst(&tmp);
+	while (tmp)
 	{
-		tmp = opt_a(dir, str, env);
-		closedir(dir);
-		default_sort(tmp);
-		if ((new = dirnew(str, tmp)))
-			option_sort(env, new, 1, tmp);
+		print_rank(env, tmp, size);
+		if ((dir = opendir(tmp->path)) != NULL)
+		{
+			closedir(dir);
+			tmp2 = recursive_file(tmp->path, env, size, rank + 1);
+			if (*tmp2)
+				option_add(env, tmp2, size, rank + 1);
+		}
+		tmp = tmp->prev;
 	}
 }
 
-void	recursive_file(char *str, t_opt env)
+int		if_dir(char *str)
 {
 	struct dirent	*sd;
+	struct stat		buf;
 	DIR				*dir;
-	int				i;
-	char			*tmp;
 
-	i = 0;
 	dir = opendir(str);
 	if (dir == NULL)
-		error(str);
+		return (0);
 	else
 	{
-		ft_default(str, env);
 		while ((sd = readdir(dir)) != NULL)
 		{
-			if (sd->d_type == 4 && i > 1 && ft_strncmp(sd->d_name, ".", 1))
+			lstat(double_path(str, sd->d_name), &buf);
+			if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
 			{
-				tmp = double_path(str, sd->d_name);
-				recursive_file(tmp, env);
+				closedir(dir);
+				return (1);
 			}
-			i++;
 		}
 		closedir(dir);
 	}
+	return (0);
+}
+
+char	**recursive_file(char *str, t_opt env, int size, int rank)
+{
+	struct dirent	*sd;
+	struct stat		buf;
+	DIR				*dir;
+	char			**tmp;
+
+	dir = opendir(str);
+	if (rec(str, dir) == 0)
+		return (NULL);
+	if (!(tmp = newtab(1)))
+		return (NULL);
+	tmp[0] = NULL;
+	while ((sd = readdir(dir)) != NULL)
+	{
+		lstat(double_path(str, sd->d_name), &buf);
+		if (S_ISDIR(buf.st_mode) && ft_strncmp(sd->d_name, ".", 1))
+		{
+			if (tmp[0] == NULL)
+				tmp[0] = double_path(str, sd->d_name);
+			else
+				tmp = add_str_to_tab(tmp, double_path(str, sd->d_name));
+		}
+	}
+	closedir(dir);
+	return (tmp);
 }
 
 char	**opt_a(DIR *dir, char *str, t_opt env)

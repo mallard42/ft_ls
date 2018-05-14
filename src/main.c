@@ -6,37 +6,47 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:43:12 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:06:17 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/20 14:35:02 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_ls.h"
 
-void	multi_option(char **tab)
+void	print_file(t_opt env, t_dir **lst, char **tab)
 {
-	t_opt	env;
+	option_sort(env, *lst, 0, 0);
+	if (env.opt_l == 1)
+		opt_l((*lst)->path, (*lst)->file, env, 0);
+	else
+		print_tab((*lst)->file);
+	if (*tab && env.opt_maj_r == 0)
+		ft_putstr("\n");
+	dirfree_end(lst);
+}
+
+void	multi_option(char **tab, t_opt env, int i)
+{
 	t_dir	*lst;
 	char	**file;
 
+	file = NULL;
 	lst = NULL;
-	check_option(tabtostr(tab), "ARUacdlrtu");
-	env = rec_option(tabtostr(tab));
-	tab = del_str_to_tab(tab, 1);
-	file = check_file(tab);
-	if (file != NULL)
+	if (env.opt_d == 1)
+		option_add(env, tab, 0, 0);
+	else
 	{
-		if ((lst = dirnew(".", file)))
+		file = check_file(tab);
+		i = (*file) ? i + 1 : i;
+		if (*file != NULL)
+			if ((lst = dirnew(NULL, file, 0)))
+				print_file(env, &lst, tab);
+		if (*tab != NULL)
 		{
-			option_sort(env, lst, 0, tab);
-			print_tab(lst->file);
-			dirfree_end(&lst);
+			if ((lst = dirnew(".", tab, 0)))
+				option_sort(env, lst, 0, i);
+			option_add(env, tab, i, i);
 		}
 	}
-	if (tab)
-		if (env.opt_d == 0)
-			if ((lst = dirnew(".", tab)))
-				option_sort(env, lst, 0, tab);
-	option_add(env, tab);
 }
 
 void	multi_str(char **tab)
@@ -45,18 +55,26 @@ void	multi_str(char **tab)
 	int		i;
 	int		size;
 	t_opt	env;
+	char	**file;
 
-	i = 0;
 	lst = NULL;
 	tab = del_str_to_tab(tab, 1);
 	ini_opt(&env);
-	dir_default(tab, env, &lst);
-	size = sizelst(&lst);
-	while (lst != NULL)
+	i = check_tab(tab);
+	file = check_file(tab);
+	if (*file != NULL)
+		print_tab(file);
+	if (*tab != NULL)
 	{
-		option_print(env, lst, size, i);
-		i++;
-		lst = lst->prev;
+		if (*file != NULL)
+			ft_putstr("\n");
+		dir_default(tab, env, &lst, tablen(tab) - 1);
+		size = sizelst(&lst);
+		while (lst != NULL)
+		{
+			print_multi_str(++i, size, &lst, (*file) ? 1 : 0);
+			lst = lst->prev;
+		}
 	}
 }
 
@@ -68,7 +86,7 @@ char	*tabtostr(char **tab)
 	i = 1;
 	str = NULL;
 	str = ft_strdup("-");
-	while (tab[i] && tab[i][0] == '-')
+	while (tab[i] && tab[i][0] == '-' && ft_strcmp(tab[i], "--"))
 	{
 		str = ft_strjoin_f(str, &(tab[i][1]), 0);
 		i++;
@@ -78,8 +96,17 @@ char	*tabtostr(char **tab)
 
 int		main(int ac, char **av)
 {
-	if (ac >= 2 && av[1][0] == '-' && ft_strcmp(av[1], "--"))
-		multi_option(av);
+	t_opt	env;
+	int		i;
+
+	if (ac >= 2 && av[1][0] == '-')
+	{
+		check_option(tabtostr(av), "ARUacdlrtu");
+		env = rec_option(tabtostr(av));
+		av = del_str_to_tab(av, 1);
+		i = check_tab(av);
+		multi_option(av, env, i);
+	}
 	else
 		multi_str(av);
 	return (0);

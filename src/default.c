@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 13:03:37 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/21 20:22:51 by mallard          ###   ########.fr       */
+/*   Updated: 2017/06/21 13:55:28 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	default_sort(char **file)
 void	char_del(char **tab, int i)
 {
 	int		size;
+	char	tmp;
 
 	size = tablen(tab);
-	//ft_strdel(&tab[i]);
 	while (i < size)
 	{
 		tab[i] = tab[i + 1];
@@ -45,7 +45,7 @@ void	char_del(char **tab, int i)
 	}
 }
 
-void	dir_default(char **tab, t_opt env, t_dir **lst)
+void	dir_default(char **tab, t_opt env, t_dir **lst, int rank)
 {
 	t_dir	*new;
 	int		i;
@@ -53,20 +53,23 @@ void	dir_default(char **tab, t_opt env, t_dir **lst)
 	char	**tmp;
 
 	*lst = NULL;
-	tmp = NULL;
 	i = 0;
 	while (tab[i] != NULL)
 	{
-		dir = opendir(tab[i]);
-		if (dir == NULL)
-			error(tab[i]);
+		tmp = NULL;
+		if ((dir = opendir(tab[i])) == NULL)
+			tmp = error(tab[i]);
 		else
-			tmp = opt_a(dir, tab[i], env);
-		new = dirnew(tab[i], tmp);
+		{
+			tmp = opt_a(dir, check_lnk(tab[i]), env);
+			closedir(dir);
+		}
+		new = dirnew(tab[i], tmp, rank);
 		if (*lst == NULL)
-			*lst = dirnew(tab[i], tmp);
+			*lst = dirnew(tab[i], tmp, rank);
 		else
 			diradd(lst, new);
 		i++;
+		rank++;
 	}
 }

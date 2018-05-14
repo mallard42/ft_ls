@@ -6,7 +6,7 @@
 /*   By: mallard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 11:27:15 by mallard           #+#    #+#             */
-/*   Updated: 2017/04/18 13:40:50 by mallard          ###   ########.fr       */
+/*   Updated: 2017/05/14 17:25:41 by mallard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@ char	*double_path(char *s1, char *s2)
 		return (s2);
 	if (!s2)
 		return (s1);
-	if (ft_strcmp(s1, "/"))
+	if ((ft_strlen(s1) == 1 && s1[0] == '/'))
+		str = ft_strjoin(s1, s2);
+	else
+	{
 		str = ft_strjoin(s1, "/");
-	str = ft_strjoin(str, s2);
+		str = ft_strjoin(str, s2);
+	}
 	return (str);
 }
 
